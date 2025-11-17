@@ -27,7 +27,6 @@ $pending = $stmt->fetchAll();
   <title>Lễ tân | DentaCare</title>
   <link href="css/style.css" rel="stylesheet">
   <link href="vendors/simplebar/css/simplebar.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
   <!-- SIDEBAR -->
@@ -86,7 +85,11 @@ $pending = $stmt->fetchAll();
               <td><?= date('d/m/Y H:i', strtotime($apt['appointment_date'])) ?></td>
               <td>
                 <button class="btn btn-primary btn-sm" onclick="assignDoc(<?= $apt['id'] ?>)">Chuyển BS</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteApt(<?= $apt['id'] ?>)">Xóa</button>
+                <form method="POST" action="../handle/receptionist_process.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lịch hẹn này? Bệnh nhân sẽ nhận được email thông báo hủy lịch hẹn.');">
+                  <input type="hidden" name="action" value="delete">
+                  <input type="hidden" name="id" value="<?= $apt['id'] ?>">
+                  <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                </form>
               </td>
             </tr>
             <?php endforeach; ?>
@@ -123,35 +126,10 @@ $pending = $stmt->fetchAll();
   </div>
 
   <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     function assignDoc(id) {
       document.getElementById('assign_id').value = id;
       new coreui.Modal(document.getElementById('assignModal')).show();
-    }
-
-    function deleteApt(id) {
-      Swal.fire({
-        title: 'Xóa lịch hẹn?',
-        text: 'Bệnh nhân sẽ nhận được email thông báo hủy lịch hẹn.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy'
-      }).then(r => {
-        if (r.isConfirmed) {
-          const f = new FormData();
-          f.append('action', 'delete');
-          f.append('id', id);
-          fetch('../handle/receptionist_process.php', {method: 'POST', body: f})
-            .then(() => {
-              Swal.fire('Thành công!', 'Đã xóa lịch hẹn và gửi thông báo cho bệnh nhân.', 'success')
-                .then(() => location.reload());
-            });
-        }
-      });
     }
   </script>
 </body>

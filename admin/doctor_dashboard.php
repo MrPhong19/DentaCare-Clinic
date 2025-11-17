@@ -63,6 +63,24 @@ foreach ($pending_appts as $apt) {
         <?php unset($_SESSION['error']); ?>
       <?php endif; ?>
       
+      <?php if (isset($_SESSION['duplicate_warning_id'])): ?>
+        <div class="alert alert-warning alert-dismissible fade show">
+          <strong>⚠ Cảnh báo trùng lịch!</strong> Bạn đã có lịch hẹn khác trong ngày <?= date('d/m/Y', strtotime($_SESSION['duplicate_warning_date'])) ?>. 
+          Bạn có chắc chắn muốn nhận lịch này?
+          <form method="POST" action="../handle/doctor_process.php" style="display:inline-block; margin-left:10px;">
+            <input type="hidden" name="action" value="accept">
+            <input type="hidden" name="appt_id" value="<?= $_SESSION['duplicate_warning_id'] ?>">
+            <input type="hidden" name="confirm_duplicate" value="1">
+            <button type="submit" class="btn btn-warning btn-sm">Có, nhận lịch</button>
+          </form>
+          <a href="doctor_dashboard.php" class="btn btn-secondary btn-sm">Hủy</a>
+        </div>
+        <?php 
+        unset($_SESSION['duplicate_warning_id']);
+        unset($_SESSION['duplicate_warning_date']);
+        ?>
+      <?php endif; ?>
+      
       <div class="row">
         <div class="col-12">
           <h2 class="mb-4">Xin chào, <strong><?= htmlspecialchars($_SESSION['full_name']) ?></strong></h2>
@@ -88,8 +106,24 @@ foreach ($pending_appts as $apt) {
                   <small><?= htmlspecialchars($a['note'] ?? 'N/A') ?></small><br>
                   Thời gian: <strong><?= date('d/m/Y H:i', strtotime($a['appointment_date'])) ?></strong>
                   <div class="mt-2">
-                    <button class="btn btn-success btn-sm" onclick="acceptAppointment(<?= $a['id'] ?>, <?= isset($duplicate_warnings[$a['id']]) ? 'true' : 'false' ?>)">Nhận lịch</button>
-                    <button class="btn btn-danger btn-sm" onclick="rejectAppointment(<?= $a['id'] ?>)">Từ chối</button>
+                    <?php if (isset($duplicate_warnings[$a['id']])): ?>
+                      <form method="POST" action="../handle/doctor_process.php" style="display:inline;" onsubmit="return confirm('⚠ Cảnh báo: Bạn đã có lịch hẹn khác trong ngày này. Bạn có chắc chắn muốn nhận lịch này?');">
+                        <input type="hidden" name="action" value="accept">
+                        <input type="hidden" name="appt_id" value="<?= $a['id'] ?>">
+                        <button type="submit" class="btn btn-warning btn-sm">Nhận lịch (Trùng ngày)</button>
+                      </form>
+                    <?php else: ?>
+                      <form method="POST" action="../handle/doctor_process.php" style="display:inline;">
+                        <input type="hidden" name="action" value="accept">
+                        <input type="hidden" name="appt_id" value="<?= $a['id'] ?>">
+                        <button type="submit" class="btn btn-success btn-sm">Nhận lịch</button>
+                      </form>
+                    <?php endif; ?>
+                    <form method="POST" action="../handle/doctor_process.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn từ chối lịch hẹn này? Lịch hẹn sẽ được chuyển lại cho lễ tân.');">
+                      <input type="hidden" name="action" value="reject">
+                      <input type="hidden" name="appt_id" value="<?= $a['id'] ?>">
+                      <button type="submit" class="btn btn-danger btn-sm">Từ chối</button>
+                    </form>
                   </div>
                 </div>
                 <?php endforeach; ?>
@@ -119,83 +153,5 @@ foreach ($pending_appts as $apt) {
   </div>
 
   <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    function acceptAppointment(id, hasDuplicate) {
-      if (hasDuplicate) {
-        Swal.fire({
-          title: 'Cảnh báo trùng lịch!',
-          text: 'Bạn đã có lịch hẹn khác trong ngày này. Bạn có chắc chắn muốn nhận lịch này?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Có, nhận lịch',
-          cancelButtonText: 'Hủy'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            submitAccept(id);
-          }
-        });
-      } else {
-        submitAccept(id);
-      }
-    }
-
-    function submitAccept(id) {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = '../handle/doctor_process.php';
-      
-      const input1 = document.createElement('input');
-      input1.type = 'hidden';
-      input1.name = 'action';
-      input1.value = 'accept';
-      form.appendChild(input1);
-      
-      const input2 = document.createElement('input');
-      input2.type = 'hidden';
-      input2.name = 'appt_id';
-      input2.value = id;
-      form.appendChild(input2);
-      
-      document.body.appendChild(form);
-      form.submit();
-    }
-
-    function rejectAppointment(id) {
-      Swal.fire({
-        title: 'Từ chối lịch hẹn?',
-        text: 'Lịch hẹn sẽ được chuyển lại cho lễ tân.',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Từ chối',
-        cancelButtonText: 'Hủy'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = '../handle/doctor_process.php';
-          
-          const input1 = document.createElement('input');
-          input1.type = 'hidden';
-          input1.name = 'action';
-          input1.value = 'reject';
-          form.appendChild(input1);
-          
-          const input2 = document.createElement('input');
-          input2.type = 'hidden';
-          input2.name = 'appt_id';
-          input2.value = id;
-          form.appendChild(input2);
-          
-          document.body.appendChild(form);
-          form.submit();
-        }
-      });
-    }
-  </script>
 </body>
 </html>

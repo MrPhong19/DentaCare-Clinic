@@ -38,7 +38,6 @@ $doctors = $pdo->query("SELECT * FROM users WHERE role = 'doctor' AND status = '
   <link rel="icon" href="assets/favicon/favicon-32x32.png">
   <link rel="stylesheet" href="vendors/simplebar/css/simplebar.css">
   <link href="css/style.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
   <?php 
@@ -98,9 +97,11 @@ $doctors = $pdo->query("SELECT * FROM users WHERE role = 'doctor' AND status = '
                           <td><?= htmlspecialchars($user['full_name']) ?></td>
                           <td><?= htmlspecialchars($user['email'] ?? 'N/A') ?></td>
                           <td>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user['id'] ?>, '<?= htmlspecialchars($user['full_name'], ENT_QUOTES) ?>')">
+                            <a href="manage_users.php?delete=1&id=<?= $user['id'] ?>" 
+                               class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa <?= htmlspecialchars(addslashes($user['full_name'])) ?>? Hành động này sẽ xóa tất cả thông tin liên quan và không thể hoàn tác!');">
                               Xóa
-                            </button>
+                            </a>
                           </td>
                         </tr>
                         <?php endforeach; ?>
@@ -139,9 +140,11 @@ $doctors = $pdo->query("SELECT * FROM users WHERE role = 'doctor' AND status = '
                           <td><?= htmlspecialchars($user['full_name']) ?></td>
                           <td><?= htmlspecialchars($user['email'] ?? 'N/A') ?></td>
                           <td>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= $user['id'] ?>, '<?= htmlspecialchars($user['full_name'], ENT_QUOTES) ?>')">
+                            <a href="manage_users.php?delete=1&id=<?= $user['id'] ?>" 
+                               class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa <?= htmlspecialchars(addslashes($user['full_name'])) ?>? Hành động này sẽ xóa tất cả thông tin liên quan và không thể hoàn tác!');">
                               Xóa
-                            </button>
+                            </a>
                           </td>
                         </tr>
                         <?php endforeach; ?>
@@ -160,25 +163,6 @@ $doctors = $pdo->query("SELECT * FROM users WHERE role = 'doctor' AND status = '
   </div>
 
   <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    function deleteUser(id, name) {
-      Swal.fire({
-        title: 'Xóa người dùng?',
-        html: `Bạn có chắc chắn muốn xóa <strong>${name}</strong>?<br>Hành động này sẽ xóa tất cả thông tin liên quan và không thể hoàn tác!`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = `manage_users.php?delete=1&id=${id}`;
-        }
-      });
-    }
-  </script>
 </body>
 </html>
 
