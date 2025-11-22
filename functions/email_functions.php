@@ -13,9 +13,9 @@ use PHPMailer\PHPMailer\Exception;
 const BREVO_SMTP_HOST       = 'smtp-relay.brevo.com';
 const BREVO_SMTP_PORT       = 587;          // 587 với TLS
 const BREVO_SMTP_SECURE     = 'tls';        // hoặc PHPMailer::ENCRYPTION_STARTTLS nếu dùng bản chuẩn
-const BREVO_SMTP_USERNAME   = '9c29d7001@smtp-brevo.com';  
-const BREVO_SMTP_PASSWORD   = 'xsmtpsib-0d2f86711734f4d2b06f4da56c782c7378983c24d5962406082a214ed2f72c5c-2IyfRsVGJt3cg5x6';      // API key tạo trong mục SMTP & API
-const BREVO_FROM_EMAIL      = '9c29d7001@smtp-brevo.com';          // Thường trùng với BREVO_SMTP_USERNAME
+const BREVO_SMTP_USERNAME   = 'YOUR_BREVO_SMTP_USERNAME@smtp-brevo.com';  // Thay bằng SMTP username của bạn từ Brevo
+const BREVO_SMTP_PASSWORD   = 'YOUR_BREVO_SMTP_KEY';      // Thay bằng SMTP key của bạn từ Brevo (SMTP & API)
+const BREVO_FROM_EMAIL      = 'YOUR_BREVO_SMTP_USERNAME@smtp-brevo.com';  // Thường trùng với BREVO_SMTP_USERNAME
 const BREVO_FROM_NAME       = 'DentaCare - Nha Khoa';
 const BREVO_CC_EMAIL        = '';            // Nếu không cần CC có thể để chuỗi rỗng ''
 
