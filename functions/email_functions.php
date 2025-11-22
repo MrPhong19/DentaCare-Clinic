@@ -8,16 +8,35 @@ use PHPMailer\PHPMailer\Exception;
 
 /**
  * Cấu hình SMTP cho Brevo (Sendinblue)
- * TODO: Sau khi tạo SMTP key trên Brevo, sửa lại các hằng số bên dưới cho đúng tài khoản của bạn.
+ * 
+ * QUAN TRỌNG: File config/email_config.local.php chứa SMTP key thực tế (không commit lên GitHub)
+ * Nếu file local không tồn tại, các hằng số bên dưới sẽ dùng giá trị placeholder (sẽ không gửi được email)
+ * 
+ * HƯỚNG DẪN:
+ * 1. Copy file config/email_config.local.php.example thành config/email_config.local.php
+ * 2. Điền thông tin SMTP thực tế vào config/email_config.local.php
+ * 3. File config/email_config.local.php sẽ tự động được .gitignore (không commit lên GitHub)
  */
-const BREVO_SMTP_HOST       = 'smtp-relay.brevo.com';
-const BREVO_SMTP_PORT       = 587;          // 587 với TLS
-const BREVO_SMTP_SECURE     = 'tls';        // hoặc PHPMailer::ENCRYPTION_STARTTLS nếu dùng bản chuẩn
-const BREVO_SMTP_USERNAME   = 'YOUR_BREVO_SMTP_USERNAME@smtp-brevo.com';  // Thay bằng SMTP username của bạn từ Brevo
-const BREVO_SMTP_PASSWORD   = 'YOUR_BREVO_SMTP_KEY';      // Thay bằng SMTP key của bạn từ Brevo (SMTP & API)
-const BREVO_FROM_EMAIL      = 'YOUR_BREVO_SMTP_USERNAME@smtp-brevo.com';  // Thường trùng với BREVO_SMTP_USERNAME
-const BREVO_FROM_NAME       = 'DentaCare - Nha Khoa';
-const BREVO_CC_EMAIL        = '';            // Nếu không cần CC có thể để chuỗi rỗng ''
+
+// Load cấu hình từ file local nếu có (file này không commit lên GitHub)
+$local_config = __DIR__ . '/../config/email_config.local.php';
+if (file_exists($local_config)) {
+    // File local có SMTP key thực tế (file này không commit lên GitHub)
+    require_once $local_config;
+}
+
+// Nếu file local không tồn tại hoặc chưa định nghĩa các hằng số, dùng placeholder
+if (!defined('BREVO_SMTP_HOST')) {
+    // Placeholder - sẽ không gửi được email cho đến khi tạo file config local
+    define('BREVO_SMTP_HOST', 'smtp-relay.brevo.com');
+    define('BREVO_SMTP_PORT', 587);
+    define('BREVO_SMTP_SECURE', 'tls');
+    define('BREVO_SMTP_USERNAME', 'YOUR_BREVO_SMTP_USERNAME@smtp-brevo.com');
+    define('BREVO_SMTP_PASSWORD', 'YOUR_BREVO_SMTP_KEY');
+    define('BREVO_FROM_EMAIL', 'YOUR_BREVO_SMTP_USERNAME@smtp-brevo.com');
+    define('BREVO_FROM_NAME', 'DentaCare - Nha Khoa');
+    define('BREVO_CC_EMAIL', '');
+}
 
 function sendEmail($to, $subject, $body, $ccReceptionist = false)
 {
