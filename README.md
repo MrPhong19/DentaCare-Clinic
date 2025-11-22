@@ -72,24 +72,31 @@ Hệ thống Quản lý Phòng khám Nha khoa (DentaCare) được xây dựng n
 ## 🚀 3. Hình ảnh các chức năng
 
 ### Trang chủ website (Bệnh nhân)
+<img src="docs/images/trang-chu.png" alt="Trang chủ DentaCare" width="900"/>
 *Trang chủ với form đặt lịch khám trực tuyến, danh sách bác sĩ, thông tin phòng khám*
 
 ### Dashboard Admin
+<img src="docs/images/dashboard-admin.png" alt="Dashboard Admin" width="900"/>
 *Trang tổng quan với thống kê doanh thu, số lịch hẹn, biểu đồ dịch vụ hot, tỷ lệ no-show*
 
 ### Quản lý người dùng (Admin)
+<img src="docs/images/ql-nguoi-dung.png" alt="Quản lý người dùng" width="900"/>
 *Trang quản lý tài khoản Bác sĩ và Lễ tân: thêm, sửa, xóa, tìm kiếm*
 
 ### Dashboard Lễ tân
-*Trang quản lý lịch hẹn: xem lịch chờ duyệt, tất cả lịch hẹn, tìm kiếm theo ngày, phân công bác sĩ*
+<img src="docs/images/dashboard-letan-1.png" alt="Dashboard Lễ tân - Lịch chờ duyệt" width="900"/>
+*Trang lịch chờ duyệt - Xem danh sách lịch hẹn cần xử lý: phân công bác sĩ, sửa/xóa*
+
+<img src="docs/images/dashboard-letan-2.png" alt="Dashboard Lễ tân - Tất cả lịch hẹn" width="900"/>
+*Trang tất cả lịch hẹn - Quản lý lịch hẹn: xem, tìm kiếm theo ngày, phân công bác sĩ, sửa/xóa*
 
 ### Dashboard Bác sĩ
+<img src="docs/images/dashboard-bacsi.png" alt="Dashboard Bác sĩ" width="900"/>
 *Trang xử lý lịch hẹn: xem lịch chờ duyệt, chấp nhận/từ chối, thêm ghi chú, thống kê cá nhân*
 
 ### Trang lịch hẹn của tôi (Bệnh nhân)
+<img src="docs/images/my-appoinment.png" alt="Lịch hẹn của tôi" width="900"/>
 *Trang tra cứu lịch hẹn theo số điện thoại, xem trạng thái, sửa/hủy lịch hẹn*
-
-> **Lưu ý**: Hình ảnh sẽ được cập nhật sau khi chụp màn hình các trang chức năng chính
 
 ## ⚙️ 4. Cài đặt
 
