@@ -301,10 +301,6 @@ Hệ thống tự động gửi email thông báo qua Brevo SMTP khi:
 
 Dự án này được phát triển cho mục đích học tập và nghiên cứu.
 
-## 👨‍💻 11. Tác giả
-
-- **Nguyễn Kiều Phong** - Backend, Database, Admin/Receptionist functions
-- **Trịnh Việt Đức** - Frontend, Doctor/Patient functions, Testing
 
 ---
 
