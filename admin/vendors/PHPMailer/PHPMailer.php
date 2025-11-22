@@ -37,10 +37,15 @@ class PHPMailer
         if (empty($all_recipients)) { $this->ErrorInfo = 'No recipient'; return false; }
 
         $smtp = new SMTP();
-        if (!$smtp->connect($this->Host, $this->Port)) { $this->ErrorInfo = 'Connect failed'; return false; }
+        // Nếu dùng SSL (port 465), kết nối SSL ngay từ đầu
+        $use_ssl = ($this->SMTPSecure === 'ssl');
+        if (!$smtp->connect($this->Host, $this->Port, $use_ssl)) { $this->ErrorInfo = 'Connect failed'; return false; }
 
         $smtp->hello('localhost');
-        if ($this->SMTPSecure === self::ENCRYPTION_STARTTLS) $smtp->startTLS();
+        // Chỉ dùng STARTTLS nếu không phải SSL (port 587 với TLS)
+        if ($this->SMTPSecure === self::ENCRYPTION_STARTTLS || $this->SMTPSecure === 'tls') {
+            $smtp->startTLS();
+        }
         if ($this->SMTPAuth) $smtp->authenticate($this->Username, $this->Password);
 
         $smtp->mailFrom($this->From);

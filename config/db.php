@@ -23,6 +23,5 @@ function getDbConnection() {
     }
 }
 
-// TỰ ĐỘNG KẾT NỐI KHI FILE ĐƯỢC INCLUDE
 $pdo = getDbConnection();
 ?>

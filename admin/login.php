@@ -77,12 +77,6 @@ unset($_SESSION['login_error']);
                 Chưa có tài khoản? 
                 <a href="register_public.php" class="text-primary fw-bold">Đăng ký ngay</a>
               </p>
-              <small class="text-muted">
-                <strong>Tài khoản mẫu:</strong><br>
-                <code>admin / password</code> → Admin<br>
-                <code>letan1 / password</code> → Lễ tân<br>
-                <code>bsminh / password</code> → Bác sĩ
-              </small>
             </div>
           </div>
         </div>

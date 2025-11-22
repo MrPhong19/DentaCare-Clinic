@@ -20,10 +20,8 @@ if (isset($_SESSION['appointment_error'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet">
-<!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- CSS: dùng relative path thay vì C:\... -->
+    <!-- SweetAlert2 sẽ được load trong appointment_modal.php để tránh duplicate -->
     <link rel="stylesheet" href="assets/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     
@@ -43,25 +41,10 @@ if (isset($_SESSION['appointment_error'])) {
   <body>
     
 	  <!-- NAVIGATION -->
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-      <div class="container">
-        <a class="navbar-brand" href="index.php">Denta<span>Care</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav">
-          <span class="oi oi-menu"></span> Menu
-        </button>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-            <li class="nav-item"><a href="services.php" class="nav-link">Services</a></li>
-            <li class="nav-item"><a href="doctors.php" class="nav-link">Doctors</a></li>
-            <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-            <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            <li class="nav-item cta"><a href="#" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Đặt lịch khám</span></a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <?php 
+    $current_page = 'index';
+    include 'includes/nav.php'; 
+    ?>
     <!-- END nav -->
 
     <section class="home-slider owl-carousel">
@@ -71,7 +54,7 @@ if (isset($_SESSION['appointment_error'])) {
         <div class="row slider-text align-items-center">
           <div class="col-md-6 col-sm-12 ftco-animate">
             <h1 class="mb-4">Nha khoa hiện đại &amp; thân thiện</h1>
-            <p class="mb-4">Đặt lịch nhanh chóng – Chăm sóc tận tâm.</p>
+            <p class="mb-4">Chăm sóc nụ cười của bạn với đội ngũ bác sĩ chuyên nghiệp và trang thiết bị hiện đại.</p>
             <p><a href="#" class="btn btn-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
           </div>
         </div>
@@ -97,7 +80,7 @@ if (isset($_SESSION['appointment_error'])) {
           <div class="col-md-3 color-1 p-4">
             <h3 class="mb-4">Khẩn cấp</h3>
             <p>Liên hệ ngay khi cần hỗ trợ</p>
-            <span class="phone-number">+84 123 456 789</span>
+            <span class="phone-number">+84 345 277 764</span>
           </div>
           <div class="col-md-3 color-2 p-4">
             <h3 class="mb-4">Giờ mở cửa</h3>
@@ -121,6 +104,12 @@ if (isset($_SESSION['appointment_error'])) {
                         <option value="Cạo vôi răng">Cạo vôi răng</option>
                         <option value="Niềng răng">Niềng răng</option>
                         <option value="Cấy ghép Implant">Cấy ghép Implant</option>
+                        <option value="Nhổ răng">Nhổ răng</option>
+                        <option value="Trám răng">Trám răng</option>
+                        <option value="Điều trị tủy">Điều trị tủy</option>
+                        <option value="Bọc răng sứ">Bọc răng sứ</option>
+                        <option value="Tẩy trắng răng tại nhà">Tẩy trắng răng tại nhà</option>
+                        <option value="Khám tổng quát">Khám tổng quát</option>
                       </select>
                     </div>
                   </div>
@@ -174,8 +163,8 @@ if (isset($_SESSION['appointment_error'])) {
       <div class="container">
       	<div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-2">Our Service Keeps you Smile</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+            <h2 class="mb-2">Dịch vụ của chúng tôi giữ nụ cười của bạn</h2>
+            <p>DentaCare cung cấp đầy đủ các dịch vụ nha khoa từ cơ bản đến chuyên sâu, đảm bảo chăm sóc toàn diện cho sức khỏe răng miệng của bạn.</p>
           </div>
         </div>
         <div class="row">
@@ -185,8 +174,8 @@ if (isset($_SESSION['appointment_error'])) {
             		<span class="flaticon-tooth-1"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Teeth Whitening</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Tẩy trắng răng</h3>
+                <p>Dịch vụ tẩy trắng răng chuyên nghiệp, an toàn, giúp bạn có nụ cười tự tin và rạng rỡ hơn.</p>
               </div>
             </div>      
           </div>
@@ -196,8 +185,8 @@ if (isset($_SESSION['appointment_error'])) {
             		<span class="flaticon-dental-care"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Teeth Cleaning</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Cạo vôi răng</h3>
+                <p>Làm sạch vôi răng định kỳ giúp bảo vệ răng khỏi các bệnh lý về nướu và duy trì sức khỏe răng miệng tốt.</p>
               </div>
             </div>    
           </div>
@@ -207,8 +196,8 @@ if (isset($_SESSION['appointment_error'])) {
             		<span class="flaticon-tooth-with-braces"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Quality Brackets</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Niềng răng</h3>
+                <p>Chỉnh nha niềng răng với công nghệ hiện đại, giúp bạn có hàm răng đều đẹp và nụ cười hoàn hảo.</p>
               </div>
             </div>      
           </div>
@@ -218,8 +207,8 @@ if (isset($_SESSION['appointment_error'])) {
             		<span class="flaticon-anesthesia"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Modern Anesthetic</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Cấy ghép Implant</h3>
+                <p>Phục hồi răng mất bằng công nghệ cấy ghép Implant hiện đại, mang lại hàm răng tự nhiên và bền vững.</p>
               </div>
             </div>      
           </div>
@@ -232,16 +221,16 @@ if (isset($_SESSION['appointment_error'])) {
       		<div class="col-md-6 d-flex">
       			<div class="about-wrap">
       				<div class="heading-section heading-section-white mb-5 ftco-animate">
-		            <h2 class="mb-2">Dentacare with a personal touch</h2>
-		            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+		            <h2 class="mb-2">DentaCare với sự chăm sóc tận tâm</h2>
+		            <p>Chúng tôi cam kết mang đến dịch vụ nha khoa chất lượng cao với sự quan tâm đặc biệt đến từng bệnh nhân.</p>
 		          </div>
       				<div class="list-services d-flex ftco-animate">
       					<div class="icon d-flex justify-content-center align-items-center">
       						<span class="icon-check2"></span>
       					</div>
       					<div class="text">
-	      					<h3>Well Experience Dentist</h3>
-	      					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	      					<h3>Bác sĩ giàu kinh nghiệm</h3>
+	      					<p>Đội ngũ bác sĩ được đào tạo chuyên sâu, có nhiều năm kinh nghiệm trong lĩnh vực nha khoa.</p>
       					</div>
       				</div>
       				<div class="list-services d-flex ftco-animate">
@@ -249,8 +238,8 @@ if (isset($_SESSION['appointment_error'])) {
       						<span class="icon-check2"></span>
       					</div>
       					<div class="text">
-	      					<h3>High Technology Facilities</h3>
-	      					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	      					<h3>Trang thiết bị hiện đại</h3>
+	      					<p>Hệ thống máy móc và thiết bị nha khoa được nhập khẩu từ các nước tiên tiến, đảm bảo chất lượng điều trị tốt nhất.</p>
       					</div>
       				</div>
       				<div class="list-services d-flex ftco-animate">
@@ -258,8 +247,8 @@ if (isset($_SESSION['appointment_error'])) {
       						<span class="icon-check2"></span>
       					</div>
       					<div class="text">
-	      					<h3>Comfortable Clinics</h3>
-	      					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	      					<h3>Phòng khám tiện nghi</h3>
+	      					<p>Không gian phòng khám rộng rãi, sạch sẽ, tạo cảm giác thoải mái và an tâm cho mọi bệnh nhân.</p>
       					</div>
       				</div>
       			</div>
@@ -273,8 +262,8 @@ if (isset($_SESSION['appointment_error'])) {
       <div class="container">
       	<div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Meet Our Experience Dentist</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences</p>
+            <h2 class="mb-3">Gặp gỡ đội ngũ bác sĩ của chúng tôi</h2>
+            <p>Đội ngũ bác sĩ nha khoa giàu kinh nghiệm, tận tâm và chuyên nghiệp, luôn sẵn sàng chăm sóc sức khỏe răng miệng cho bạn.</p>
           </div>
         </div>
         <div class="row">
@@ -283,9 +272,9 @@ if (isset($_SESSION['appointment_error'])) {
       				<div class="img mb-4" style="background-image: url('assets/images/person_5.jpg');"></div>
       				<div class="info text-center">
       					<h3><a href="#">Tom Smith</a></h3>
-      					<span class="position">Dentist</span>
+      					<span class="position">Bác sĩ Nha khoa</span>
       					<div class="text">
-	        				<p>Far far away, behind the word mountains, far from the countries Vokalia</p>
+	        				<p>Chuyên khoa: Chỉnh nha và Phục hình răng. Kinh nghiệm 15 năm.</p>
 	        				<ul class="ftco-social">
 			              <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 			              <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -301,9 +290,9 @@ if (isset($_SESSION['appointment_error'])) {
       				<div class="img mb-4" style="background-image: url('assets/images/person_6.jpg');"></div>
       				<div class="info text-center">
       					<h3><a href="#">Mark Wilson</a></h3>
-      					<span class="position">Dentist</span>
+      					<span class="position">Bác sĩ Nha khoa</span>
       					<div class="text">
-	        				<p>Far far away, behind the word mountains, far from the countries Vokalia</p>
+	        				<p>Chuyên khoa: Điều trị tủy và Phẫu thuật răng. Kinh nghiệm 12 năm.</p>
 	        				<ul class="ftco-social">
 			              <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 			              <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -319,9 +308,9 @@ if (isset($_SESSION['appointment_error'])) {
       				<div class="img mb-4" style="background-image: url('assets/images/person_7.jpg');"></div>
       				<div class="info text-center">
       					<h3><a href="#">Patrick Jacobson</a></h3>
-      					<span class="position">Dentist</span>
+      					<span class="position">Bác sĩ Nha khoa</span>
       					<div class="text">
-	        				<p>Far far away, behind the word mountains, far from the countries Vokalia</p>
+	        				<p>Chuyên khoa: Cấy ghép Implant và Phục hình thẩm mỹ. Kinh nghiệm 10 năm.</p>
 	        				<ul class="ftco-social">
 			              <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 			              <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -337,9 +326,9 @@ if (isset($_SESSION['appointment_error'])) {
       				<div class="img mb-4" style="background-image: url('assets/images/person_8.jpg');"></div>
       				<div class="info text-center">
       					<h3><a href="#">Ivan Dorchsner</a></h3>
-      					<span class="position">System Analyst</span>
+      					<span class="position">Bác sĩ Nha khoa</span>
       					<div class="text">
-	        				<p>Far far away, behind the word mountains, far from the countries Vokalia</p>
+	        				<p>Chuyên khoa: Nha khoa tổng quát và Nha khoa trẻ em. Kinh nghiệm 8 năm.</p>
 	        				<ul class="ftco-social">
 			              <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 			              <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -353,7 +342,7 @@ if (isset($_SESSION['appointment_error'])) {
         </div>
         <div class="row  mt-5 justify-conten-center">
         	<div class="col-md-8 ftco-animate">
-        		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi vero accusantium sunt sit aliquam ipsum molestias autem perferendis, incidunt cumque necessitatibus cum amet cupiditate, ut accusamus. Animi, quo. Laboriosam, laborum.</p>
+        		<p>Với phương châm "Nụ cười của bạn là niềm vui của chúng tôi", DentaCare luôn nỗ lực mang đến dịch vụ nha khoa chất lượng cao nhất, giúp bạn tự tin với nụ cười rạng rỡ.</p>
         	</div>
         </div>
       </div>
@@ -364,8 +353,8 @@ if (isset($_SESSION['appointment_error'])) {
     		<div class="row d-flex align-items-center">
     			<div class="col-md-3 aside-stretch py-5">
     				<div class=" heading-section heading-section-white ftco-animate pr-md-4">
-	            <h2 class="mb-3">Achievements</h2>
-	            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+	            <h2 class="mb-3">Thành tựu</h2>
+	            <p>Những con số ấn tượng thể hiện sự tin tưởng và hài lòng của khách hàng dành cho DentaCare.</p>
 	          </div>
     			</div>
     			<div class="col-md-9 py-5 pl-md-5">
@@ -373,32 +362,32 @@ if (isset($_SESSION['appointment_error'])) {
 		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
 		            <div class="block-18">
 		              <div class="text">
-		                <strong class="number" data-number="14">0</strong>
-		                <span>Years of Experience</span>
+		                <strong class="number" data-number="15">0</strong>
+		                <span>Năm kinh nghiệm</span>
 		              </div>
 		            </div>
 		          </div>
 		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
 		            <div class="block-18">
 		              <div class="text">
-		                <strong class="number" data-number="4500">0</strong>
-		                <span>Qualified Dentist</span>
+		                <strong class="number" data-number="50">0</strong>
+		                <span>Bác sĩ chuyên nghiệp</span>
 		              </div>
 		            </div>
 		          </div>
 		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
 		            <div class="block-18">
 		              <div class="text">
-		                <strong class="number" data-number="4200">0</strong>
-		                <span>Happy Smiling Customer</span>
+		                <strong class="number" data-number="5000">0</strong>
+		                <span>Khách hàng hài lòng</span>
 		              </div>
 		            </div>
 		          </div>
 		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
 		            <div class="block-18">
 		              <div class="text">
-		                <strong class="number" data-number="320">0</strong>
-		                <span>Patients Per Year</span>
+		                <strong class="number" data-number="2000">0</strong>
+		                <span>Bệnh nhân mỗi năm</span>
 		              </div>
 		            </div>
 		          </div>
@@ -412,73 +401,73 @@ if (isset($_SESSION['appointment_error'])) {
     	<div class="container">
     		<div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Our Best Pricing</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+            <h2 class="mb-3">Bảng giá dịch vụ</h2>
+            <p>Bảng giá minh bạch, hợp lý cho tất cả các dịch vụ nha khoa tại DentaCare.</p>
           </div>
         </div>
     		<div class="row">
         	<div class="col-md-3 ftco-animate">
         		<div class="pricing-entry pb-5 text-center">
         			<div>
-	        			<h3 class="mb-4">Basic</h3>
-	        			<p><span class="price">$24.50</span> <span class="per">/ session</span></p>
+	        			<h3 class="mb-4">Cơ bản</h3>
+	        			<p><span class="price">300.000đ</span> <span class="per">/ lần</span></p>
 	        		</div>
         			<ul>
-        				<li>Diagnostic Services</li>
-								<li>Professional Consultation</li>
-								<li>Tooth Implants</li>
-								<li>Surgical Extractions</li>
-								<li>Teeth Whitening</li>
+        				<li>Khám tổng quát</li>
+								<li>Tư vấn chuyên nghiệp</li>
+								<li>Cạo vôi răng</li>
+								<li>Chụp X-quang</li>
+								<li>Điều trị cơ bản</li>
         			</ul>
-        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
         		</div>
         	</div>
         	<div class="col-md-3 ftco-animate">
         		<div class="pricing-entry pb-5 text-center">
         			<div>
-	        			<h3 class="mb-4">Standard</h3>
-	        			<p><span class="price">$34.50</span> <span class="per">/ session</span></p>
+	        			<h3 class="mb-4">Tiêu chuẩn</h3>
+	        			<p><span class="price">500.000đ</span> <span class="per">/ lần</span></p>
 	        		</div>
         			<ul>
-        				<li>Diagnostic Services</li>
-								<li>Professional Consultation</li>
-								<li>Tooth Implants</li>
-								<li>Surgical Extractions</li>
-								<li>Teeth Whitening</li>
+        				<li>Khám tổng quát</li>
+								<li>Tư vấn chuyên sâu</li>
+								<li>Trám răng</li>
+								<li>Nhổ răng</li>
+								<li>Tẩy trắng răng</li>
         			</ul>
-        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
         		</div>
         	</div>
         	<div class="col-md-3 ftco-animate">
         		<div class="pricing-entry active pb-5 text-center">
         			<div>
-	        			<h3 class="mb-4">Premium</h3>
-	        			<p><span class="price">$54.50</span> <span class="per">/ session</span></p>
+	        			<h3 class="mb-4">Cao cấp</h3>
+	        			<p><span class="price">2.000.000đ</span> <span class="per">/ lần</span></p>
 	        		</div>
         			<ul>
-        				<li>Diagnostic Services</li>
-								<li>Professional Consultation</li>
-								<li>Tooth Implants</li>
-								<li>Surgical Extractions</li>
-								<li>Teeth Whitening</li>
+        				<li>Khám tổng quát</li>
+								<li>Tư vấn miễn phí</li>
+								<li>Điều trị tủy</li>
+								<li>Bọc răng sứ</li>
+								<li>Tẩy trắng răng</li>
         			</ul>
-        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
         		</div>
         	</div>
         	<div class="col-md-3 ftco-animate">
         		<div class="pricing-entry pb-5 text-center">
         			<div>
-	        			<h3 class="mb-4">Platinum</h3>
-	        			<p><span class="price">$89.50</span> <span class="per">/ session</span></p>
+	        			<h3 class="mb-4">VIP</h3>
+	        			<p><span class="price">30.000.000đ</span> <span class="per">/ ca</span></p>
 	        		</div>
         			<ul>
-        				<li>Diagnostic Services</li>
-								<li>Professional Consultation</li>
-								<li>Tooth Implants</li>
-								<li>Surgical Extractions</li>
-								<li>Teeth Whitening</li>
+        				<li>Khám tổng quát</li>
+								<li>Tư vấn 1-1</li>
+								<li>Cấy ghép Implant</li>
+								<li>Niềng răng</li>
+								<li>Phục hình thẩm mỹ</li>
         			</ul>
-        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+        			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
         		</div>
         	</div>
         </div>
@@ -490,14 +479,14 @@ if (isset($_SESSION['appointment_error'])) {
         <div class="container">
           <div class="row d-flex justify-content-center">
             <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-              <h2>Subcribe to our Newsletter</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+              <h2>Đăng ký nhận tin tức</h2>
+              <p>Nhận thông tin về các chương trình ưu đãi, mẹo chăm sóc răng miệng và cập nhật dịch vụ mới từ DentaCare.</p>
               <div class="row d-flex justify-content-center mt-5">
                 <div class="col-md-8">
                   <form action="#" class="subscribe-form">
                     <div class="form-group d-flex">
-                      <input type="text" class="form-control" placeholder="Enter email address">
-                      <input type="submit" value="Subscribe" class="submit px-3">
+                      <input type="text" class="form-control" placeholder="Nhập địa chỉ email">
+                      <input type="submit" value="Đăng ký" class="submit px-3">
                     </div>
                   </form>
                 </div>
@@ -512,8 +501,8 @@ if (isset($_SESSION['appointment_error'])) {
       <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-2">Testimony</h2>
-            <span class="subheading">Our Happy Customer Says</span>
+            <h2 class="mb-2">Cảm nhận khách hàng</h2>
+            <span class="subheading">Những chia sẻ từ khách hàng của chúng tôi</span>
           </div>
         </div>
         <div class="row justify-content-center ftco-animate">
@@ -527,9 +516,9 @@ if (isset($_SESSION['appointment_error'])) {
                     </span>
                   </div>
                   <div class="text text-center">
-                    <p class="mb-5">Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
-                    <p class="name">Dennis Green</p>
-                    <span class="position">Marketing Manager</span>
+                    <p class="mb-5">Dịch vụ tại DentaCare thật sự tuyệt vời! Bác sĩ rất tận tâm, trang thiết bị hiện đại và quy trình chăm sóc rất chuyên nghiệp. Tôi rất hài lòng với kết quả điều trị.</p>
+                    <p class="name">Nguyễn Văn An</p>
+                    <span class="position">Khách hàng</span>
                   </div>
                 </div>
               </div>
@@ -541,9 +530,9 @@ if (isset($_SESSION['appointment_error'])) {
                     </span>
                   </div>
                   <div class="text text-center">
-                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Dennis Green</p>
-                    <span class="position">Interface Designer</span>
+                    <p class="mb-5">Sau khi điều trị tại DentaCare, tôi cảm thấy tự tin hơn rất nhiều với nụ cười của mình. Cảm ơn đội ngũ bác sĩ đã giúp tôi có được hàm răng đẹp như mong muốn.</p>
+                    <p class="name">Trần Thị Bình</p>
+                    <span class="position">Khách hàng</span>
                   </div>
                 </div>
               </div>
@@ -555,9 +544,9 @@ if (isset($_SESSION['appointment_error'])) {
                     </span>
                   </div>
                   <div class="text text-center">
-                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Dennis Green</p>
-                    <span class="position">UI Designer</span>
+                    <p class="mb-5">Phòng khám rất sạch sẽ, nhân viên thân thiện và bác sĩ giải thích rất rõ ràng về quy trình điều trị. Tôi hoàn toàn yên tâm khi đến đây.</p>
+                    <p class="name">Lê Minh Cường</p>
+                    <span class="position">Khách hàng</span>
                   </div>
                 </div>
               </div>
@@ -569,9 +558,9 @@ if (isset($_SESSION['appointment_error'])) {
                     </span>
                   </div>
                   <div class="text text-center">
-                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Dennis Green</p>
-                    <span class="position">Web Developer</span>
+                    <p class="mb-5">Giá cả hợp lý, chất lượng dịch vụ tốt. Tôi đã giới thiệu nhiều người thân đến DentaCare và họ đều rất hài lòng.</p>
+                    <p class="name">Phạm Thị Dung</p>
+                    <span class="position">Khách hàng</span>
                   </div>
                 </div>
               </div>
@@ -583,9 +572,9 @@ if (isset($_SESSION['appointment_error'])) {
                     </span>
                   </div>
                   <div class="text text-center">
-                    <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Dennis Green</p>
-                    <span class="position">System Analytics</span>
+                    <p class="mb-5">Quy trình đặt lịch rất tiện lợi, không phải chờ đợi lâu. Bác sĩ chuyên nghiệp và tận tâm với từng bệnh nhân.</p>
+                    <p class="name">Hoàng Văn Đức</p>
+                    <span class="position">Khách hàng</span>
                   </div>
                 </div>
               </div>
@@ -634,8 +623,8 @@ if (isset($_SESSION['appointment_error'])) {
       <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-2">Latest Blog</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+            <h2 class="mb-2">Tin tức mới nhất</h2>
+            <p>Cập nhật những thông tin hữu ích về chăm sóc răng miệng và các dịch vụ nha khoa tại DentaCare.</p>
           </div>
         </div>
         <div class="row">
@@ -650,7 +639,7 @@ if (isset($_SESSION['appointment_error'])) {
                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
                 </div>
                 <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+	                <h3 class="heading"><a href="#">Cách chăm sóc răng miệng đúng cách tại nhà</a></h3>
 	              </div>
               </div>
             </div>
@@ -666,7 +655,7 @@ if (isset($_SESSION['appointment_error'])) {
                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
                 </div>
                 <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+	                <h3 class="heading"><a href="#">Cách chăm sóc răng miệng đúng cách tại nhà</a></h3>
 	              </div>
               </div>
             </div>
@@ -682,7 +671,7 @@ if (isset($_SESSION['appointment_error'])) {
                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
                 </div>
                 <div class="desc pl-3">
-	                <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+	                <h3 class="heading"><a href="#">Cách chăm sóc răng miệng đúng cách tại nhà</a></h3>
 	              </div>
               </div>
             </div>
@@ -696,26 +685,26 @@ if (isset($_SESSION['appointment_error'])) {
     		<div class="row">
     			<div class="col-md-6 pr-md-5 aside-stretch py-5 choose">
     				<div class="heading-section heading-section-white mb-5 ftco-animate">
-	            <h2 class="mb-2">DentaCare Procedure &amp; High Quality Services</h2>
+	            <h2 class="mb-2">Quy trình DentaCare &amp; Dịch vụ chất lượng cao</h2>
 	          </div>
 	          <div class="ftco-animate">
-	          	<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. Because there were thousands of bad Commas, wild Question Marks and devious Semikoli</p>
+	          	<p>DentaCare áp dụng quy trình điều trị chuyên nghiệp, đảm bảo an toàn và hiệu quả cho mọi bệnh nhân. Chúng tôi luôn cập nhật công nghệ mới nhất và tuân thủ nghiêm ngặt các tiêu chuẩn vệ sinh y tế.</p>
 	          	<ul class="un-styled my-5">
-	          		<li><span class="icon-check"></span>Consectetur adipisicing elit</li>
-	          		<li><span class="icon-check"></span>Adipisci repellat accusamus</li>
-	          		<li><span class="icon-check"></span>Tempore reprehenderit vitae</li>
+	          		<li><span class="icon-check"></span>Khám và tư vấn miễn phí</li>
+	          		<li><span class="icon-check"></span>Điều trị theo phác đồ chuẩn</li>
+	          		<li><span class="icon-check"></span>Theo dõi và chăm sóc sau điều trị</li>
 	          	</ul>
 	          </div>
     			</div>
     			<div class="col-md-6 py-5 pl-md-5">
     				<div class="heading-section mb-5 ftco-animate">
-	            <h2 class="mb-2">Get a Free Quote</h2>
+	            <h2 class="mb-2">Nhận báo giá miễn phí</h2>
 	          </div>
 	          <form action="#" class="ftco-animate">
 	          	<div class="row">
 	          		<div class="col-md-6">
 		              <div class="form-group">
-		                <input type="text" class="form-control" placeholder="Full Name">
+		                <input type="text" class="form-control" placeholder="Họ tên">
 		              </div>
 	              </div>
 	              <div class="col-md-6">
@@ -725,22 +714,22 @@ if (isset($_SESSION['appointment_error'])) {
 	              </div>
 	              <div class="col-md-6">
 	              	<div class="form-group">
-		                <input type="text" class="form-control" placeholder="Phone">
+		                <input type="text" class="form-control" placeholder="Số điện thoại">
 		              </div>
 		            </div>
 	              <div class="col-md-6">
 	              	<div class="form-group">
-		                <input type="text" class="form-control" placeholder="Website">
+		                <input type="text" class="form-control" placeholder="Dịch vụ quan tâm">
 		              </div>
 		            </div>
 		            <div class="col-md-12">
 		              <div class="form-group">
-		                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+		                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Tin nhắn"></textarea>
 		              </div>
 		            </div>
 		            <div class="col-md-12">
 		              <div class="form-group">
-		                <input type="submit" value="Get a Quote" class="btn btn-primary py-3 px-5">
+		                <input type="submit" value="Gửi yêu cầu" class="btn btn-primary py-3 px-5">
 		              </div>
 	              </div>
               </div>
@@ -758,7 +747,7 @@ if (isset($_SESSION['appointment_error'])) {
           <div class="col-md-3">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">DentaCare.</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+              <p>Phòng khám nha khoa DentaCare - Nơi chăm sóc nụ cười của bạn với đội ngũ bác sĩ chuyên nghiệp và trang thiết bị hiện đại nhất.</p>
             </div>
             <ul class="ftco-footer-social list-unstyled float-md-left float-lft ">
               <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
@@ -768,27 +757,27 @@ if (isset($_SESSION['appointment_error'])) {
           </div>
           <div class="col-md-2">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Quick Links</h2>
+              <h2 class="ftco-heading-2">Liên kết nhanh</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">About</a></li>
-                <li><a href="#" class="py-2 d-block">Features</a></li>
-                <li><a href="#" class="py-2 d-block">Projects</a></li>
-                <li><a href="#" class="py-2 d-block">Blog</a></li>
-                <li><a href="#" class="py-2 d-block">Contact</a></li>
+                <li><a href="about.php" class="py-2 d-block">Giới thiệu</a></li>
+                <li><a href="services.php" class="py-2 d-block">Dịch vụ</a></li>
+                <li><a href="doctors_list.php" class="py-2 d-block">Bác sĩ</a></li>
+                <li><a href="blog.php" class="py-2 d-block">Tin tức</a></li>
+                <li><a href="contact.php" class="py-2 d-block">Liên hệ</a></li>
               </ul>
             </div>
           </div>
           <div class="col-md-4 pr-md-4">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Recent Blog</h2>
+              <h2 class="ftco-heading-2">Tin tức gần đây</h2>
               <div class="block-21 mb-4 d-flex">
                 <a class="blog-img mr-4" style="background-image: url('assets/images/image_1.jpg');"></a>
                 <div class="text">
                   <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
                   <div class="meta">
-                    <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>
-                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                    <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                  <div><a href="#"><span class="icon-calendar"></span> 15/11/2025</a></div>
+                  <div><a href="#"><span class="icon-person"></span> DentaCare</a></div>
+                  <div><a href="#"><span class="icon-chat"></span> 12</a></div>
                   </div>
                 </div>
               </div>
@@ -797,9 +786,9 @@ if (isset($_SESSION['appointment_error'])) {
                 <div class="text">
                   <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
                   <div class="meta">
-                    <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>
-                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                    <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                  <div><a href="#"><span class="icon-calendar"></span> 15/11/2025</a></div>
+                  <div><a href="#"><span class="icon-person"></span> DentaCare</a></div>
+                  <div><a href="#"><span class="icon-chat"></span> 12</a></div>
                   </div>
                 </div>
               </div>
@@ -807,25 +796,15 @@ if (isset($_SESSION['appointment_error'])) {
           </div>
           <div class="col-md-3">
             <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Office</h2>
+            	<h2 class="ftco-heading-2">Văn phòng</h2>
             	<div class="block-23 mb-3">
 	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Hà Nội, Việt Nam</span></li>
+	                <li><a href="tel:+84345277764"><span class="icon icon-phone"></span><span class="text">+84 345 277 764</span></a></li>
+	                <li><a href="mailto:info@dentacare.vn"><span class="icon icon-envelope"></span><span class="text">phongsir205@gmail.com</span></a></li>
 	              </ul>
 	            </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-
-            <p>
-              Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-              All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i>
-              by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-            </p>
           </div>
         </div>
       </div>
@@ -839,93 +818,31 @@ if (isset($_SESSION['appointment_error'])) {
     </svg>
   </div>
 
-  <!-- Modal -->
-
-<div class="modal fade" id="modalRequest" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Đặt lịch khám</h5>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="modalAppointmentForm" class="appointment-form">
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <select name="department" class="form-control" required>
-                  <option value="">Chọn dịch vụ</option>
-                  <option value="Tẩy trắng răng">Tẩy trắng răng</option>
-                  <option value="Cạo vôi răng">Cạo vôi răng</option>
-                  <option value="Niềng răng">Niềng răng</option>
-                  <option value="Cấy ghép Implant">Cấy ghép Implant</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="Họ tên" required>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <input type="email" name="email" class="form-control" placeholder="Email" required>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <input type="text" name="phone" class="form-control" placeholder="SĐT" required>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <input type="text" name="date" class="form-control appointment_date" placeholder="Ngày" required>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <input type="text" name="time" class="form-control appointment_time" placeholder="Giờ" required>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <textarea name="reason" class="form-control" rows="3" placeholder="Ghi chú"></textarea>
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Đặt lịch</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+  <!-- Modal đặt lịch - Sử dụng file chung -->
 
 
-  <!-- JS -->
+  <!-- JS - Load jQuery và Bootstrap trước, các script khác có thể defer -->
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/jquery-migrate-3.0.1.min.js"></script>
   <script src="assets/js/popper.min.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
-  <script src="assets/js/jquery.easing.1.3.js"></script>
-  <script src="assets/js/jquery.waypoints.min.js"></script>
-  <script src="assets/js/jquery.stellar.min.js"></script>
-  <script src="assets/js/owl.carousel.min.js"></script>
-  <script src="assets/js/jquery.magnific-popup.min.js"></script>
-  <script src="assets/js/aos.js"></script>
-  <script src="assets/js/jquery.animateNumber.min.js"></script>
-  <script src="assets/js/bootstrap-datepicker.js"></script>
+  <script src="assets/js/jquery.easing.1.3.js" defer></script>
+  <script src="assets/js/jquery.waypoints.min.js" defer></script>
+  <script src="assets/js/jquery.stellar.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/jquery.magnific-popup.min.js" defer></script>
+  <script src="assets/js/aos.js" defer></script>
+  <script src="assets/js/jquery.animateNumber.min.js" defer></script>
+  <script src="assets/js/bootstrap-datepicker.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.14.1/jquery.timepicker.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.14.1/jquery.timepicker.min.js"></script>  <script src="assets/js/scrollax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.14.1/jquery.timepicker.min.js" defer></script>
+  <script src="assets/js/scrollax.min.js" defer></script>
 
-  <!-- Google Map (sẽ cảnh báo key nếu key không hợp lệ, nhưng không làm bể layout) -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="assets/js/google-map.js"></script>
+  <!-- Google Map: Tạm thời bỏ để tránh ảnh hưởng đến form đặt lịch -->
+  <!-- <script src="assets/js/google-map.js"></script> -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initGoogleMap" async defer></script> -->
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
   <!-- AJAX XỬ LÝ FORM -->
  <script>
 $(document).ready(function() {
@@ -937,7 +854,7 @@ $(document).ready(function() {
     startDate: new Date()
   });
 $('.appointment_time').timepicker({
-    timeFormat: 'HH:mm',
+    timeFormat: 'H:i',
     interval: 30,
     minTime: '08:00',
     maxTime: '19:00',
@@ -946,10 +863,30 @@ $('.appointment_time').timepicker({
     dropdown: true,
     scrollbar: true
 });
-  // Xử lý cả 2 form
-  $('#appointmentForm, #modalAppointmentForm').on('submit', function(e) {
+  // Xử lý form inline (nếu có) - form modal được xử lý trong appointment_modal.php
+  // Chỉ xử lý form #appointmentForm nếu tồn tại (không phải modal)
+  let isSubmitting = false;
+  $('#appointmentForm').on('submit', function(e) {
     e.preventDefault();
-    const formData = $(this).serialize();
+    
+    // Chặn submit nhiều lần
+    if (isSubmitting) {
+      return false;
+    }
+    
+    const $form = $(this);
+    const $submitBtn = $form.find('button[type="submit"], input[type="submit"]');
+    const formData = $form.serialize();
+    
+    // Disable button và hiển thị loading
+    isSubmitting = true;
+    const originalText = $submitBtn.html() || $submitBtn.val();
+    $submitBtn.prop('disabled', true);
+    if ($submitBtn.is('button')) {
+      $submitBtn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...');
+    } else {
+      $submitBtn.val('Đang xử lý...');
+    }
 
     $.ajax({
       url: '../handle/appointment_process.php',
@@ -957,21 +894,78 @@ $('.appointment_time').timepicker({
       data: formData,
       dataType: 'json',
       success: function(res) {
-        Swal.fire({
-          icon: res.status === 'success' ? 'success' : 'error',
-          title: res.status === 'success' ? 'Thành công!' : 'Lỗi!',
-          text: res.message,
-          timer: res.status === 'success' ? 3000 : null,
-          showConfirmButton: res.status !== 'success'
-        }).then(() => {
-          if (res.status === 'success') {
-            $(e.target)[0].reset();
-            $('#modalRequest').modal('hide');
+        isSubmitting = false;
+        $submitBtn.prop('disabled', false);
+        if ($submitBtn.is('button')) {
+          $submitBtn.html(originalText);
+        } else {
+          $submitBtn.val(originalText);
+        }
+        
+        if (res.status === 'success') {
+          if (typeof Swal !== 'undefined') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Đặt lịch thành công!',
+              html: '<strong>' + res.message + '</strong><br><small>Vui lòng kiểm tra email để xác nhận.</small>',
+              timer: 5000,
+              timerProgressBar: true,
+              showConfirmButton: true,
+              confirmButtonText: 'Đóng',
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            }).then(() => {
+              $form[0].reset();
+            });
+          } else {
+            alert('Đặt lịch thành công! ' + res.message);
+            $form[0].reset();
           }
-        });
+        } else {
+          if (typeof Swal !== 'undefined') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi!',
+              text: res.message,
+              showConfirmButton: true,
+              confirmButtonText: 'Đóng'
+            });
+          } else {
+            alert('Lỗi: ' + res.message);
+          }
+        }
       },
-      error: function() {
-        Swal.fire('Lỗi', 'Không thể kết nối server.', 'error');
+      error: function(xhr, status, error) {
+        isSubmitting = false;
+        $submitBtn.prop('disabled', false);
+        if ($submitBtn.is('button')) {
+          $submitBtn.html(originalText);
+        } else {
+          $submitBtn.val(originalText);
+        }
+        
+        console.error('AJAX Error:', status, error);
+        let errorMsg = 'Không thể kết nối server. Vui lòng thử lại sau.';
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+          errorMsg = xhr.responseJSON.message;
+        } else if (xhr.responseText) {
+          try {
+            const json = JSON.parse(xhr.responseText);
+            if (json.message) errorMsg = json.message;
+          } catch(e) {}
+        }
+        
+        if (typeof Swal !== 'undefined') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi kết nối!',
+            text: errorMsg,
+            showConfirmButton: true,
+            confirmButtonText: 'Đóng'
+          });
+        } else {
+          alert('Lỗi: ' + errorMsg);
+        }
       }
     });
   });
@@ -984,6 +978,39 @@ $('.appointment_time').timepicker({
   <?php endif; ?>
 });
 </script>
+
+  <!-- Modal đặt lịch -->
+  <?php include 'includes/appointment_modal.php'; ?>
+  
+  <script>
+    // Tự động mở modal đặt lịch và điền tên bác sĩ khi có parameter doctor trong URL
+    $(document).ready(function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const doctorName = urlParams.get('doctor');
+      
+      if (doctorName) {
+        // Mở modal đặt lịch
+        $('#modalRequest').modal('show');
+        
+        // Điền tên bác sĩ vào trường ghi chú (reason)
+        setTimeout(function() {
+          const reasonTextarea = $('#modalAppointmentForm textarea[name="reason"]');
+          if (reasonTextarea.length) {
+            const currentValue = reasonTextarea.val().trim();
+            const doctorNote = 'Đặt lịch với bác sĩ ' + decodeURIComponent(doctorName);
+            if (currentValue) {
+              reasonTextarea.val(doctorNote + ' - ' + currentValue);
+            } else {
+              reasonTextarea.val(doctorNote);
+            }
+          }
+        }, 500); // Đợi modal hiển thị hoàn toàn
+        
+        // Xóa parameter khỏi URL để tránh mở lại khi refresh
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    });
+  </script>
     
 </body>
 </html>

@@ -20,26 +20,11 @@
 </head>
 <body>
     
-	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Denta<span>Care</span></a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
-
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="services.php" class="nav-link">Services</a></li>
-	          <li class="nav-item"><a href="doctors.php" class="nav-link">Doctors</a></li>
-	          <li class="nav-item active"><a href="blog.php" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta"><a href="contact.php" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Make an Appointment</span></a></li>
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
+	  <!-- NAVIGATION -->
+    <?php 
+    $current_page = 'blog';
+    include 'includes/nav.php'; 
+    ?>
     <!-- END nav -->
 
     <section class="home-slider owl-carousel">
@@ -340,20 +325,12 @@
             	<h2 class="ftco-heading-2">Office</h2>
             	<div class="block-23 mb-3">
 	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Hà Nội, Việt Nam</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+84 345 277 764</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">phongsir205@gmail.com</span></a></li>
 	              </ul>
 	            </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
           </div>
         </div>
       </div>
@@ -415,23 +392,29 @@
   </div>
 
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.animateNumber.min.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/jquery.timepicker.min.js"></script>
-  <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="js/google-map.js"></script>
-  <script src="js/main.js"></script>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/jquery.easing.1.3.js" defer></script>
+  <script src="assets/js/jquery.waypoints.min.js" defer></script>
+  <script src="assets/js/jquery.stellar.min.js" defer></script>
+  <script src="assets/js/owl.carousel.min.js" defer></script>
+  <script src="assets/js/jquery.magnific-popup.min.js" defer></script>
+  <script src="assets/js/aos.js" defer></script>
+  <script src="assets/js/jquery.animateNumber.min.js" defer></script>
+  <script src="assets/js/bootstrap-datepicker.js" defer></script>
+  <script src="assets/js/jquery.timepicker.min.js" defer></script>
+  <script src="assets/js/scrollax.min.js" defer></script>
+  <!-- Google Map: Load function trước, sau đó load API -->
+  <script src="assets/js/google-map.js"></script>
+  <!-- Google Map: Tạm thời bỏ để tránh ảnh hưởng đến form đặt lịch -->
+  <!-- <script src="assets/js/google-map.js"></script> -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initGoogleMap" async defer></script> -->
+  <script src="assets/js/main.js" defer></script>
+  
+  <!-- Modal đặt lịch -->
+  <?php include 'includes/appointment_modal.php'; ?>
     
   </body>
 </html>

@@ -7746,20 +7746,126 @@ h1, h2, h3, h4, h5,
       display: block; }
   .ftco-intro .appointment-form .form-group {
     position: relative; }
-    .ftco-intro .appointment-form .form-group input, .ftco-intro .appointment-form .form-group select {
+.ftco-intro .appointment-form .form-control,
+.ftco-intro .appointment-form .form-group input,
+.ftco-intro .appointment-form .form-group select,
+.ftco-intro .appointment-form .form-group textarea {
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       background: transparent !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
       color: #fff !important;
       font-size: 14px;
-      padding-right: 20px !important; }
-      .ftco-intro .appointment-form .form-group input option, .ftco-intro .appointment-form .form-group select option {
-        color: #fff; }
+    padding: 8px 0 !important;
+    padding-right: 20px !important;
+    border-radius: 0;
+    box-shadow: none !important;
+    outline: none !important; }
+    /* Đảm bảo TẤT CẢ input (tên, email, số điện thoại, ngày, giờ) đều có nền trong suốt giống nhau */
+    .ftco-intro .appointment-form .form-group input[type="text"],
+    .ftco-intro .appointment-form .form-group input[type="email"],
+    .ftco-intro .appointment-form .form-group input[name="name"],
+    .ftco-intro .appointment-form .form-group input[name="email"],
+    .ftco-intro .appointment-form .form-group input[name="phone"],
+    .ftco-intro .appointment-form .form-group input[name="date"],
+    .ftco-intro .appointment-form .form-group input[name="time"] {
+      background: transparent !important;
+      background-color: transparent !important;
+      background-image: none !important;
+      -webkit-background-clip: unset !important;
+      background-clip: unset !important;
+      border: none !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+    }
+    .ftco-intro .appointment-form .form-group select option {
+      color: #0b1f36;
+      background: #fff; }
+    .ftco-intro .appointment-form .form-group input::placeholder,
+    .ftco-intro .appointment-form .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.85);
+    }
+    .ftco-intro .appointment-form .form-group input:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group select:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group textarea:-webkit-autofill {
+      -webkit-text-fill-color: #fff !important;
+      -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+      box-shadow: 0 0 0px 1000px transparent inset !important;
+      background-color: transparent !important;
+      background: transparent !important;
+    }
+    /* Đặc biệt cho autofill của TẤT CẢ input (tên, email, số điện thoại, ngày, giờ) */
+    .ftco-intro .appointment-form .form-group input[type="text"]:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group input[type="email"]:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group input[name="name"]:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group input[name="email"]:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group input[name="phone"]:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group input[name="date"]:-webkit-autofill,
+    .ftco-intro .appointment-form .form-group input[name="time"]:-webkit-autofill {
+      -webkit-text-fill-color: #fff !important;
+      -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+      box-shadow: 0 0 0 1000px transparent inset !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+.ftco-intro .appointment-form .select-wrap {
+    position: relative;
+    width: 100%;
+}
+.ftco-intro .appointment-form .select-wrap .icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    color: #fff;
+    pointer-events: none;
+}
+.ftco-intro .appointment-form .select-wrap select.form-control {
+    padding-right: 20px !important;
+}
+.ftco-intro .appointment-form .form-group .icon {
+    color: #fff;
+}
       .ftco-intro .appointment-form .form-group input::-webkit-input-placeholder, .ftco-intro .appointment-form .form-group select::-webkit-input-placeholder {
         /* Chrome/Opera/Safari */
         color: #fff !important; }
+
+/* CSS cho Modal Form (nền trắng) */
+.modal-content .appointment-form .form-control,
+.modal-content .appointment-form .form-group input,
+.modal-content .appointment-form .form-group select,
+.modal-content .appointment-form .form-group textarea {
+    background: #fff !important;
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+    color: #333 !important;
+    font-size: 14px;
+    padding: 10px 12px !important;
+    border-radius: 4px;
+    box-shadow: none !important;
+}
+.modal-content .appointment-form .form-group input::placeholder,
+.modal-content .appointment-form .form-group select::placeholder,
+.modal-content .appointment-form .form-group textarea::placeholder {
+    color: #999 !important;
+}
+.modal-content .appointment-form .form-group select option {
+    color: #333;
+    background: #fff;
+}
+.modal-content .appointment-form .form-group input:-webkit-autofill,
+.modal-content .appointment-form .form-group select:-webkit-autofill,
+.modal-content .appointment-form .form-group textarea:-webkit-autofill {
+    -webkit-text-fill-color: #333 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+    box-shadow: 0 0 0px 1000px #fff inset !important;
+    background-color: #fff !important;
+    background: #fff !important;
+}
       .ftco-intro .appointment-form .form-group input::-moz-placeholder, .ftco-intro .appointment-form .form-group select::-moz-placeholder {
         /* Firefox 19+ */
         color: #fff !important; }

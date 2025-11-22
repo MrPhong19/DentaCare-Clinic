@@ -24,30 +24,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($role !== 'receptionist' && $role !== 'doctor') {
         $error = 'Vai trò không hợp lệ!';
     } else {
-        try {
-            // Check if username already exists
-            $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
-            $stmt->execute([$username]);
-            if ($stmt->fetch()) {
-                $error = 'Tên đăng nhập đã tồn tại!';
+        // Xử lý upload avatar (chỉ cho bác sĩ tự đăng ký)
+        $avatar_path = null;
+        if ($role === 'doctor' && isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $upload_dir = '../uploads/avatars/';
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
+            }
+
+            $file = $_FILES['avatar'];
+            $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            $max_size = 5 * 1024 * 1024; // 5MB
+
+            if (!in_array($file['type'], $allowed_types)) {
+                $error = 'Chỉ chấp nhận file ảnh (JPG, PNG, GIF, WEBP)!';
+            } elseif ($file['size'] > $max_size) {
+                $error = 'Kích thước file không được vượt quá 5MB!';
             } else {
-                // Check if email already exists
-                $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-                $stmt->execute([$email]);
-                if ($stmt->fetch()) {
-                    $error = 'Email đã được sử dụng!';
+                $file_extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $new_filename = 'doctor_public_' . time() . '_' . uniqid() . '.' . $file_extension;
+                $upload_path = $upload_dir . $new_filename;
+
+                if (move_uploaded_file($file['tmp_name'], $upload_path)) {
+                    $avatar_path = 'uploads/avatars/' . $new_filename;
                 } else {
-                    // Insert new user
-                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                    $stmt = $pdo->prepare("INSERT INTO users (username, full_name, email, password, role, status) VALUES (?, ?, ?, ?, ?, 'active')");
-                    $stmt->execute([$username, $fullname, $email, $hashed_password, $role]);
-                    $success = 'Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.';
-                    // Clear form
-                    $_POST = [];
+                    $error = 'Không thể upload file ảnh!';
                 }
             }
-        } catch (PDOException $e) {
-            $error = 'Có lỗi xảy ra: ' . $e->getMessage();
+        }
+
+        if (empty($error)) {
+            try {
+                // Check if username already exists
+                $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+                $stmt->execute([$username]);
+                if ($stmt->fetch()) {
+                    $error = 'Tên đăng nhập đã tồn tại!';
+                } else {
+                    // Check if email already exists
+                    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+                    $stmt->execute([$email]);
+                    if ($stmt->fetch()) {
+                        $error = 'Email đã được sử dụng!';
+                    } else {
+                        // Insert new user
+                        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                        if ($avatar_path) {
+                            $stmt = $pdo->prepare("INSERT INTO users (username, full_name, email, password, role, avatar, status) VALUES (?, ?, ?, ?, ?, ?, 'active')");
+                            $stmt->execute([$username, $fullname, $email, $hashed_password, $role, $avatar_path]);
+                        } else {
+                            $stmt = $pdo->prepare("INSERT INTO users (username, full_name, email, password, role, status) VALUES (?, ?, ?, ?, ?, 'active')");
+                            $stmt->execute([$username, $fullname, $email, $hashed_password, $role]);
+                        }
+                        $success = 'Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.';
+                        // Clear form
+                        $_POST = [];
+                    }
+                }
+            } catch (PDOException $e) {
+                // Xóa file đã upload nếu có lỗi
+                if ($avatar_path && file_exists('../' . $avatar_path)) {
+                    unlink('../' . $avatar_path);
+                }
+                $error = 'Có lỗi xảy ra: ' . $e->getMessage();
+            }
         }
     }
 }
@@ -86,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             <?php endif; ?>
 
-            <form method="POST" class="needs-validation" novalidate>
+            <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
               <div class="mb-3">
                 <label class="form-label fw-semibold">Tên đăng nhập <span class="text-danger">*</span></label>
                 <input type="text" name="username" class="form-control form-control-lg" 
@@ -122,11 +162,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               <div class="mb-4">
                 <label class="form-label fw-semibold">Vai trò <span class="text-danger">*</span></label>
-                <select name="role" class="form-select form-select-lg" required>
+                <select name="role" class="form-select form-select-lg" id="roleSelectPublic" required>
                   <option value="">-- Chọn vai trò --</option>
                   <option value="receptionist" <?= ($_POST['role'] ?? '') === 'receptionist' ? 'selected' : '' ?>>Lễ tân</option>
                   <option value="doctor" <?= ($_POST['role'] ?? '') === 'doctor' ? 'selected' : '' ?>>Bác sĩ</option>
                 </select>
+              </div>
+
+              <div class="mb-4" id="avatarUploadPublic" style="display: <?= ($_POST['role'] ?? '') === 'doctor' ? 'block' : 'none' ?>;">
+                <label class="form-label fw-semibold">Ảnh đại diện (chỉ dành cho Bác sĩ)</label>
+                <input type="file" name="avatar" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp">
+                <small class="text-muted">Chỉ chấp nhận file ảnh (JPG, PNG, GIF, WEBP), tối đa 5MB</small>
               </div>
 
               <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">
@@ -147,6 +193,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 
   <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+  <script>
+    (function () {
+      var roleSelect = document.getElementById('roleSelectPublic');
+      var avatarBlock = document.getElementById('avatarUploadPublic');
+      if (roleSelect && avatarBlock) {
+        roleSelect.addEventListener('change', function () {
+          if (this.value === 'doctor') {
+            avatarBlock.style.display = 'block';
+          } else {
+            avatarBlock.style.display = 'none';
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
 

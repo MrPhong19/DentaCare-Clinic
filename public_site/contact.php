@@ -23,26 +23,11 @@
   </head>
   <body>
     
-	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	      <a class="navbar-brand" href="index.php">Denta<span>Care</span></a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
-
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="services.php" class="nav-link">Services</a></li>
-	          <li class="nav-item"><a href="doctors.php" class="nav-link">Doctors</a></li>
-	          <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-	          <li class="nav-item active"><a href="contact.php" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta"><a href="contact.php" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Make an Appointment</span></a></li>
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
+	  <!-- NAVIGATION -->
+    <?php 
+    $current_page = 'contact';
+    include 'includes/nav.php'; 
+    ?>
     <!-- END nav -->
 
     <section class="home-slider owl-carousel">
@@ -54,7 +39,7 @@
               <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}">
                 <span class="mr-2"><a href="index.php">Home</a></span> <span>Contact</span>
               </p>
-              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Contact Us</h1>
+              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Liên hệ</h1>
             </div>
           </div>
         </div>
@@ -65,39 +50,39 @@
       <div class="container">
         <div class="row d-flex mb-5 contact-info">
           <div class="col-md-12 mb-4">
-            <h2 class="h4">Contact Information</h2>
+            <h2 class="h4">Thông tin liên hệ</h2>
           </div>
           <div class="w-100"></div>
           <div class="col-md-3">
-            <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+            <p><span>Địa chỉ:</span> Hà Nội, Việt Nam</p>
           </div>
           <div class="col-md-3">
-            <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+            <p><span>Điện thoại:</span> <a href="tel:+84345277764">+84 345 277 764</a></p>
           </div>
           <div class="col-md-3">
-            <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+            <p><span>Email:</span> <a href="mailto:phongsir205@gmail.com">phongsir205@gmail.com</a></p>
           </div>
           <div class="col-md-3">
-            <p><span>Website</span> <a href="#">yoursite.com</a></p>
+            <p><span>Website:</span> <a href="index.php">www.dentacare.com</a></p>
           </div>
         </div>
         <div class="row block-9">
           <div class="col-md-6 pr-md-5">
             <form action="#">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Your Name">
+                <input type="text" class="form-control" placeholder="Họ tên">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Your Email">
+                <input type="text" class="form-control" placeholder="Email">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Subject">
+                <input type="text" class="form-control" placeholder="Chủ đề">
               </div>
               <div class="form-group">
-                <textarea cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                <textarea cols="30" rows="7" class="form-control" placeholder="Tin nhắn"></textarea>
               </div>
               <div class="form-group">
-                <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
+                <input type="submit" value="Gửi tin nhắn" class="btn btn-primary py-3 px-5">
               </div>
             </form>
           </div>
@@ -113,7 +98,7 @@
           <div class="col-md-3">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">DentaCare.</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+              <p>Phòng khám nha khoa DentaCare - Nơi chăm sóc nụ cười của bạn với đội ngũ bác sĩ chuyên nghiệp và trang thiết bị hiện đại nhất.</p>
             </div>
             <ul class="ftco-footer-social list-unstyled float-md-left float-lft ">
               <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
@@ -123,13 +108,13 @@
           </div>
           <div class="col-md-2">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Quick Links</h2>
+              <h2 class="ftco-heading-2">Liên kết nhanh</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">About</a></li>
-                <li><a href="#" class="py-2 d-block">Features</a></li>
-                <li><a href="#" class="py-2 d-block">Projects</a></li>
-                <li><a href="#" class="py-2 d-block">Blog</a></li>
-                <li><a href="#" class="py-2 d-block">Contact</a></li>
+                <li><a href="about.php" class="py-2 d-block">Giới thiệu</a></li>
+                <li><a href="services.php" class="py-2 d-block">Dịch vụ</a></li>
+                <li><a href="doctors_list.php" class="py-2 d-block">Bác sĩ</a></li>
+                <li><a href="blog.php" class="py-2 d-block">Tin tức</a></li>
+                <li><a href="contact.php" class="py-2 d-block">Liên hệ</a></li>
               </ul>
             </div>
           </div>
@@ -162,22 +147,15 @@
           </div>
           <div class="col-md-3">
             <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Office</h2>
+            	<h2 class="ftco-heading-2">Văn phòng</h2>
             	<div class="block-23 mb-3">
 	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Hà Nội, Việt Nam</span></li>
+	                <li><a href="tel:+84345277764"><span class="icon icon-phone"></span><span class="text">+84 345 277 764</span></a></li>
+	                <li><a href="mailto:phongsir205@gmail.com"><span class="icon icon-envelope"></span><span class="text">phongsir205@gmail.com</span></a></li>
 	              </ul>
 	            </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <p>
-              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-            </p>
           </div>
         </div>
       </div>
@@ -244,9 +222,13 @@
   <script src="assets/js/jquery.timepicker.min.js"></script>
   <script src="assets/js/scrollax.min.js"></script>
   <!-- Google map (chìa khóa trong template đang lỗi thì console vẫn báo, làm backend sau sẽ thay) -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="assets/js/google-map.js"></script>
+  <!-- Google Map: Tạm thời bỏ để tránh ảnh hưởng đến form đặt lịch -->
+  <!-- <script src="assets/js/google-map.js"></script> -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initGoogleMap" async defer></script> -->
   <script src="assets/js/main.js"></script>
+  
+  <!-- Modal đặt lịch -->
+  <?php include 'includes/appointment_modal.php'; ?>
     
   </body>
 </html>

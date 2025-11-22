@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DentaCare - Free Bootstrap 4 Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -25,26 +24,11 @@
   </head>
   <body>
     
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-      <div class="container">
-        <a class="navbar-brand" href="index.php">Denta<span>Care</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-            <li class="nav-item active"><a href="services.php" class="nav-link">Services</a></li>
-            <li class="nav-item"><a href="doctors.php" class="nav-link">Doctors</a></li>
-            <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-            <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            <li class="nav-item cta"><a href="contact.php" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Make an Appointment</span></a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <!-- NAVIGATION -->
+    <?php 
+    $current_page = 'services';
+    include 'includes/nav.php'; 
+    ?>
     <!-- END nav -->
 
     <section class="home-slider owl-carousel">
@@ -57,7 +41,7 @@
                 <span class="mr-2"><a href="index.php">Home</a></span> 
                 <span>Services</span>
               </p>
-              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Our Service Keeps you Smile</h1>
+              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Dịch vụ của chúng tôi giữ nụ cười của bạn</h1>
             </div>
           </div>
         </div>
@@ -68,8 +52,8 @@
       <div class="container">
         <div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-2">Our Service Keeps you Smile</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+            <h2 class="mb-2">Dịch vụ của chúng tôi giữ nụ cười của bạn</h2>
+            <p>DentaCare cung cấp đầy đủ các dịch vụ nha khoa từ cơ bản đến chuyên sâu, đảm bảo chăm sóc toàn diện cho sức khỏe răng miệng của bạn.</p>
           </div>
         </div>
         <div class="row">
@@ -79,8 +63,8 @@
                 <span class="flaticon-tooth"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Teeth Whitening</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Tẩy trắng răng</h3>
+                <p>Dịch vụ tẩy trắng răng chuyên nghiệp, an toàn, giúp bạn có nụ cười tự tin và rạng rỡ hơn.</p>
               </div>
             </div>      
           </div>
@@ -90,8 +74,8 @@
                 <span class="flaticon-dental-care"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Teeth Cleaning</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Cạo vôi răng</h3>
+                <p>Làm sạch vôi răng định kỳ giúp bảo vệ răng khỏi các bệnh lý về nướu và duy trì sức khỏe răng miệng tốt.</p>
               </div>
             </div>    
           </div>
@@ -101,8 +85,8 @@
                 <span class="flaticon-tooth-with-braces"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Quality Brackets</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Niềng răng</h3>
+                <p>Chỉnh nha niềng răng với công nghệ hiện đại, giúp bạn có hàm răng đều đẹp và nụ cười hoàn hảo.</p>
               </div>
             </div>      
           </div>
@@ -112,8 +96,8 @@
                 <span class="flaticon-anesthesia"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Modern Anesthetic</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Cấy ghép Implant</h3>
+                <p>Phục hồi răng mất bằng công nghệ cấy ghép Implant hiện đại, mang lại hàm răng tự nhiên và bền vững.</p>
               </div>
             </div>      
           </div>
@@ -124,8 +108,8 @@
                 <span class="flaticon-dental-care"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Dental Calculus</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Điều trị tủy</h3>
+                <p>Điều trị tủy răng chuyên nghiệp, giúp bảo tồn răng tự nhiên và giảm đau đớn cho bệnh nhân.</p>
               </div>
             </div>      
           </div>
@@ -135,8 +119,8 @@
                 <span class="flaticon-bacteria"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Paradontosis</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Bọc răng sứ</h3>
+                <p>Phục hình răng bằng sứ cao cấp, mang lại vẻ đẹp tự nhiên và độ bền cao cho hàm răng của bạn.</p>
               </div>
             </div>    
           </div>
@@ -146,8 +130,8 @@
                 <span class="flaticon-dentist"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Dental Implants</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Trám răng</h3>
+                <p>Trám răng thẩm mỹ với vật liệu cao cấp, phục hồi hình dáng và chức năng răng một cách tự nhiên.</p>
               </div>
             </div>      
           </div>
@@ -157,8 +141,8 @@
                 <span class="flaticon-dental-care-1"></span>
               </div>
               <div class="media-body p-2 mt-3">
-                <h3 class="heading">Tooth Braces</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <h3 class="heading">Nhổ răng</h3>
+                <p>Nhổ răng an toàn, không đau với kỹ thuật hiện đại và chăm sóc hậu phẫu chu đáo.</p>
               </div>
             </div>      
           </div>
@@ -171,8 +155,8 @@
         <div class="row d-flex align-items-center">
           <div class="col-md-3 aside-stretch py-5">
             <div class="heading-section heading-section-white ftco-animate pr-md-4">
-              <h2 class="mb-3">Achievements</h2>
-              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+              <h2 class="mb-3">Thành tựu</h2>
+              <p>Những con số ấn tượng thể hiện sự tin tưởng và hài lòng của khách hàng dành cho DentaCare.</p>
             </div>
           </div>
           <div class="col-md-9 py-5 pl-md-5">
@@ -180,32 +164,32 @@
               <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                   <div class="text">
-                    <strong class="number" data-number="14">0</strong>
-                    <span>Years of Experience</span>
+                    <strong class="number" data-number="15">0</strong>
+                    <span>Năm kinh nghiệm</span>
                   </div>
                 </div>
               </div>
               <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                   <div class="text">
-                    <strong class="number" data-number="4500">0</strong>
-                    <span>Qualified Dentist</span>
+                    <strong class="number" data-number="50">0</strong>
+                    <span>Bác sĩ chuyên nghiệp</span>
                   </div>
                 </div>
               </div>
               <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                   <div class="text">
-                    <strong class="number" data-number="4200">0</strong>
-                    <span>Happy Smiling Customer</span>
+                    <strong class="number" data-number="5000">0</strong>
+                    <span>Khách hàng hài lòng</span>
                   </div>
                 </div>
               </div>
               <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                   <div class="text">
-                    <strong class="number" data-number="320">0</strong>
-                    <span>Patients Per Year</span>
+                    <strong class="number" data-number="2000">0</strong>
+                    <span>Bệnh nhân mỗi năm</span>
                   </div>
                 </div>
               </div>
@@ -219,73 +203,73 @@
       <div class="container">
         <div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Our Best Pricing</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+            <h2 class="mb-3">Bảng giá dịch vụ</h2>
+            <p>Bảng giá minh bạch, hợp lý cho tất cả các dịch vụ nha khoa tại DentaCare.</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-3 ftco-animate">
             <div class="pricing-entry pb-5 text-center">
               <div>
-                <h3 class="mb-4">Basic</h3>
-                <p><span class="price">$24.50</span> <span class="per">/ session</span></p>
+                <h3 class="mb-4">Cơ bản</h3>
+                <p><span class="price">300.000đ</span> <span class="per">/ lần</span></p>
               </div>
               <ul>
-                <li>Diagnostic Services</li>
-                <li>Professional Consultation</li>
-                <li>Tooth Implants</li>
-                <li>Surgical Extractions</li>
-                <li>Teeth Whitening</li>
+                <li>Khám tổng quát</li>
+                <li>Tư vấn chuyên nghiệp</li>
+                <li>Cạo vôi răng</li>
+                <li>Chụp X-quang</li>
+                <li>Điều trị cơ bản</li>
               </ul>
-              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
             </div>
           </div>
           <div class="col-md-3 ftco-animate">
             <div class="pricing-entry pb-5 text-center">
               <div>
-                <h3 class="mb-4">Standard</h3>
-                <p><span class="price">$34.50</span> <span class="per">/ session</span></p>
+                <h3 class="mb-4">Tiêu chuẩn</h3>
+                <p><span class="price">500.000đ</span> <span class="per">/ lần</span></p>
               </div>
               <ul>
-                <li>Diagnostic Services</li>
-                <li>Professional Consultation</li>
-                <li>Tooth Implants</li>
-                <li>Surgical Extractions</li>
-                <li>Teeth Whitening</li>
+                <li>Khám tổng quát</li>
+                <li>Tư vấn chuyên sâu</li>
+                <li>Trám răng</li>
+                <li>Nhổ răng</li>
+                <li>Tẩy trắng răng</li>
               </ul>
-              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
             </div>
           </div>
           <div class="col-md-3 ftco-animate">
             <div class="pricing-entry active pb-5 text-center">
               <div>
-                <h3 class="mb-4">Premium</h3>
-                <p><span class="price">$54.50</span> <span class="per">/ session</span></p>
+                <h3 class="mb-4">Cao cấp</h3>
+                <p><span class="price">2.000.000đ</span> <span class="per">/ lần</span></p>
               </div>
               <ul>
-                <li>Diagnostic Services</li>
-                <li>Professional Consultation</li>
-                <li>Tooth Implants</li>
-                <li>Surgical Extractions</li>
-                <li>Teeth Whitening</li>
+                <li>Khám tổng quát</li>
+                <li>Tư vấn miễn phí</li>
+                <li>Điều trị tủy</li>
+                <li>Bọc răng sứ</li>
+                <li>Tẩy trắng răng</li>
               </ul>
-              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
             </div>
           </div>
           <div class="col-md-3 ftco-animate">
             <div class="pricing-entry pb-5 text-center">
               <div>
-                <h3 class="mb-4">Platinum</h3>
-                <p><span class="price">$89.50</span> <span class="per">/ session</span></p>
+                <h3 class="mb-4">VIP</h3>
+                <p><span class="price">30.000.000đ</span> <span class="per">/ ca</span></p>
               </div>
               <ul>
-                <li>Diagnostic Services</li>
-                <li>Professional Consultation</li>
-                <li>Tooth Implants</li>
-                <li>Surgical Extractions</li>
-                <li>Teeth Whitening</li>
+                <li>Khám tổng quát</li>
+                <li>Tư vấn 1-1</li>
+                <li>Cấy ghép Implant</li>
+                <li>Niềng răng</li>
+                <li>Phục hình thẩm mỹ</li>
               </ul>
-              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
+              <p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3" data-toggle="modal" data-target="#modalRequest">Đặt lịch ngay</a></p>
             </div>
           </div>
         </div>
@@ -298,7 +282,7 @@
           <div class="col-md-3">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">DentaCare.</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+              <p>Phòng khám nha khoa DentaCare - Nơi chăm sóc nụ cười của bạn với đội ngũ bác sĩ chuyên nghiệp và trang thiết bị hiện đại nhất.</p>
             </div>
             <ul class="ftco-footer-social list-unstyled float-md-left float-lft ">
               <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
@@ -308,13 +292,13 @@
           </div>
           <div class="col-md-2">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Quick Links</h2>
+              <h2 class="ftco-heading-2">Liên kết nhanh</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">About</a></li>
-                <li><a href="#" class="py-2 d-block">Features</a></li>
-                <li><a href="#" class="py-2 d-block">Projects</a></li>
-                <li><a href="#" class="py-2 d-block">Blog</a></li>
-                <li><a href="#" class="py-2 d-block">Contact</a></li>
+                <li><a href="about.php" class="py-2 d-block">Giới thiệu</a></li>
+                <li><a href="services.php" class="py-2 d-block">Dịch vụ</a></li>
+                <li><a href="doctors_list.php" class="py-2 d-block">Bác sĩ</a></li>
+                <li><a href="blog.php" class="py-2 d-block">Tin tức</a></li>
+                <li><a href="contact.php" class="py-2 d-block">Liên hệ</a></li>
               </ul>
             </div>
           </div>
@@ -347,23 +331,15 @@
           </div>
           <div class="col-md-3">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Office</h2>
-              <div class="block-23 mb-3">
-                <ul>
-                  <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                  <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
-                </ul>
-              </div>
+            	<h2 class="ftco-heading-2">Văn phòng</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">Hà Nội, Việt Nam</span></li>
+	                <li><a href="tel:+84345277764"><span class="icon icon-phone"></span><span class="text">+84 345 277 764</span></a></li>
+	                <li><a href="mailto:phongsir205@gmail.com"><span class="icon icon-envelope"></span><span class="text">phongsir205@gmail.com</span></a></li>
+	              </ul>
+	            </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <p>
-              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with 
-              <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-            </p>
           </div>
         </div>
       </div>
@@ -440,6 +416,9 @@
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&sensor=false"></script>
     <script src="assets/js/google-map.js"></script> -->
     <script src="assets/js/main.js"></script>
+  
+  <!-- Modal đặt lịch -->
+  <?php include 'includes/appointment_modal.php'; ?>
     
   </body>
 </html>

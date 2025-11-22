@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DentaCare - Free Bootstrap 4 Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -25,26 +24,11 @@
   </head>
   <body>
     
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-      <div class="container">
-        <a class="navbar-brand" href="index.php">Denta<span>Care</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-            <li class="nav-item"><a href="services.php" class="nav-link">Services</a></li>
-            <li class="nav-item active"><a href="doctors.php" class="nav-link">Doctors</a></li>
-            <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-            <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            <li class="nav-item cta"><a href="contact.php" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Make an Appointment</span></a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <!-- NAVIGATION -->
+    <?php 
+    $current_page = 'doctors';
+    include 'includes/nav.php'; 
+    ?>
     <!-- END nav -->
 
     <section class="home-slider owl-carousel">
@@ -64,170 +48,127 @@
       </div>
     </section>
 		
+    <?php
+    // Lấy danh sách bác sĩ từ database
+    require_once '../config/db.php';
+    require_once '../functions/avatar_functions.php';
+    
+    // Phân trang: 6 bác sĩ/trang
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $per_page = 6;
+    $offset = ($page - 1) * $per_page;
+    
+    // Lấy tổng số bác sĩ
+    $total_stmt = $pdo->query("SELECT COUNT(*) as total FROM users WHERE role = 'doctor' AND status = 'active'");
+    $total = $total_stmt->fetch()['total'];
+    $total_pages = ceil($total / $per_page);
+    
+    // Lấy danh sách bác sĩ với phân trang
+    $stmt = $pdo->prepare("SELECT id, full_name, email, avatar FROM users WHERE role = 'doctor' AND status = 'active' ORDER BY full_name LIMIT ? OFFSET ?");
+    $stmt->bindValue(1, $per_page, PDO::PARAM_INT);
+    $stmt->bindValue(2, $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $doctors = $stmt->fetchAll();
+    ?>
     <section class="ftco-section">
       <div class="container">
+        <div class="row justify-content-center mb-3">
+          <div class="col-md-12">
+            <a href="index.php" class="btn btn-secondary">
+              <span>←</span> Quay về trang chủ
+            </a>
+          </div>
+        </div>
         <div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Meet Our Experience Dentist</h2>
-            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences</p>
+            <h2 class="mb-3">Đội ngũ bác sĩ chuyên nghiệp</h2>
+            <p>Đội ngũ bác sĩ giàu kinh nghiệm, tận tâm với nghề, luôn đặt sức khỏe và sự hài lòng của bệnh nhân lên hàng đầu.</p>
           </div>
         </div>
         <div class="row">
-          <!-- 1 -->
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_5.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Tom Smith</a></h3>
-                <span class="position">Dentist</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
+          <?php if (empty($doctors)): ?>
+            <div class="col-12 text-center">
+              <p class="text-muted">Chưa có bác sĩ nào trong hệ thống.</p>
+            </div>
+          <?php else: ?>
+            <?php foreach ($doctors as $doctor): ?>
+            <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
+              <div class="staff">
+                <?php 
+                  $avatar_path = null;
+                  if ($doctor['avatar']) {
+                    $full_path = '../' . $doctor['avatar'];
+                    if (file_exists($full_path)) {
+                      $avatar_path = '../' . $doctor['avatar'];
+                    }
+                  }
+                  
+                  // Tạo style string
+                  $bg_style = '';
+                  if ($avatar_path) {
+                    $bg_style = "background-image: url('" . htmlspecialchars($avatar_path) . "');";
+                  } else {
+                    $bg_style = "background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);";
+                  }
+                  $bg_style .= " background-size: cover; background-position: center; min-height: 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; font-weight: bold;";
+                ?>
+                <div class="img mb-4" style="<?= $bg_style ?>">
+                  <?php if (!$avatar_path): ?>
+                    <!-- Hiển thị initial nếu không có ảnh -->
+                    <?= htmlspecialchars(getInitials($doctor['full_name'])) ?>
+                  <?php endif; ?>
+                </div>
+                <div class="info text-center">
+                  <h3><a href="#"><?= htmlspecialchars($doctor['full_name']) ?></a></h3>
+                  <span class="position">Bác sĩ nha khoa</span>
+                  <div class="text">
+                    <p>Bác sĩ chuyên nghiệp với nhiều năm kinh nghiệm trong lĩnh vực nha khoa</p>
+                    <?php if ($doctor['email']): ?>
+                      <p class="small text-muted mb-2"><?= htmlspecialchars($doctor['email']) ?></p>
+                    <?php endif; ?>
+                    <a href="index.php?doctor=<?= urlencode($doctor['full_name']) ?>" class="btn btn-primary btn-sm mt-2">Đặt lịch với bác sĩ này</a>
+                    <ul class="ftco-social mt-3">
+                      <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                      <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                      <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                      <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- 2 -->
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_6.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Mark Wilson</a></h3>
-                <span class="position">Dentist</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 3 -->
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_7.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Patrick Jacobson</a></h3>
-                <span class="position">Dentist</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 4 -->
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_8.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Ivan Dorchsner</a></h3>
-                <span class="position">System Analyst</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- dòng 2 -->
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_1.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Tom Smith</a></h3>
-                <span class="position">Dentist</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_2.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Mark Wilson</a></h3>
-                <span class="position">Dentist</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_3.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Patrick Jacobson</a></h3>
-                <span class="position">Dentist</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
-            <div class="staff">
-              <div class="img mb-4" style="background-image: url('assets/images/person_4.jpg');"></div>
-              <div class="info text-center">
-                <h3><a href="#">Ivan Dorchsner</a></h3>
-                <span class="position">System Analyst</span>
-                <div class="text">
-                  <p>Far far away, behind the word mountains, far from the countries Vokalia</p>
-                  <ul class="ftco-social">
-                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    <li class="ftco-animate"><a href="#"><span class="icon-google-plus"></span></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
+            <?php endforeach; ?>
+          <?php endif; ?>
         </div>
+        
+        <!-- Phân trang -->
+        <?php if ($total_pages > 1): ?>
+        <div class="row mt-5">
+          <div class="col-md-12 text-center">
+            <nav aria-label="Phân trang">
+              <ul class="pagination justify-content-center">
+                <?php if ($page > 1): ?>
+                  <li class="page-item">
+                    <a class="page-link" href="?page=<?= $page - 1 ?>">Trước</a>
+                  </li>
+                <?php endif; ?>
+                
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                  <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                  </li>
+                <?php endfor; ?>
+                
+                <?php if ($page < $total_pages): ?>
+                  <li class="page-item">
+                    <a class="page-link" href="?page=<?= $page + 1 ?>">Sau</a>
+                  </li>
+                <?php endif; ?>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <?php endif; ?>
       </div>
     </section>
 
@@ -416,20 +357,12 @@
               <h2 class="ftco-heading-2">Office</h2>
               <div class="block-23 mb-3">
                 <ul>
-                  <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                  <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+                  <li><span class="icon icon-map-marker"></span><span class="text">Hà Nội, Việt Nam</span></li>
+                  <li><a href="#"><span class="icon icon-phone"></span><span class="text">+84 345 277 764</span></a></li>
+                  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">phongsir205@gmail.com</span></a></li>
                 </ul>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <p>
-              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with 
-              <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-            </p>
           </div>
         </div>
       </div>
@@ -506,6 +439,9 @@
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&sensor=false"></script>
     <script src="assets/js/google-map.js"></script> -->
     <script src="assets/js/main.js"></script>
+  
+  <!-- Modal đặt lịch -->
+  <?php include 'includes/appointment_modal.php'; ?>
     
   </body>
 </html>
