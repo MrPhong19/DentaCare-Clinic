@@ -2,6 +2,7 @@
 session_start();
 require_once '../config/db.php';
 require_once '../functions/auth_functions.php';
+require_once '../functions/email_functions.php';
 require_role('admin');
 
 // Handle delete action
@@ -9,14 +10,71 @@ if (isset($_GET['delete']) && isset($_GET['id'])) {
     $user_id = (int)$_GET['id'];
     
     // Prevent deleting admin users
-    $stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT role, full_name FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
     $user = $stmt->fetch();
     
     if ($user && $user['role'] !== 'admin') {
-        // Delete user (cascade will handle related appointments)
+        // Nếu là bác sĩ, kiểm tra và xử lý lịch hẹn trước khi xóa
+        if ($user['role'] === 'doctor') {
+            // Kiểm tra lịch hẹn đang chờ duyệt hoặc đã xác nhận chưa đến ngày khám
+            // Kiểm tra xem cột deleted_at có tồn tại không
+            try {
+                $test_col = $pdo->query("SELECT deleted_at FROM appointments LIMIT 1");
+                $deleted_filter = "AND deleted_at IS NULL";
+            } catch (PDOException $e) {
+                $deleted_filter = "AND status != 'deleted'";
+            }
+            
+            $stmt = $pdo->prepare("SELECT id, patient_name, patient_email, appointment_date, status 
+                FROM appointments 
+                WHERE assigned_doctor_id = ? 
+                AND status IN ('waiting_for_approval', 'confirmed') 
+                AND appointment_date > NOW()
+                $deleted_filter");
+            $stmt->execute([$user_id]);
+            $affected_appointments = $stmt->fetchAll();
+            
+            if (!empty($affected_appointments)) {
+                // Chuyển các lịch hẹn về trạng thái pending để lễ tân xử lý lại
+                $appointment_ids = array_column($affected_appointments, 'id');
+                $placeholders = implode(',', array_fill(0, count($appointment_ids), '?'));
+                
+                $update_stmt = $pdo->prepare("UPDATE appointments 
+                    SET status = 'pending', 
+                        assigned_doctor_id = NULL, 
+                        assigned_receptionist_id = NULL 
+                    WHERE id IN ($placeholders)");
+                $update_stmt->execute($appointment_ids);
+                
+                // Gửi email thông báo cho từng bệnh nhân
+                foreach ($affected_appointments as $apt) {
+                    $formatted_date = date('d/m/Y H:i', strtotime($apt['appointment_date']));
+                    $subject = "Thông báo về lịch hẹn của bạn - DentaCare";
+                    $message = "<h3>Xin chào {$apt['patient_name']}!</h3>
+                               <p>Chúng tôi xin thông báo rằng lịch hẹn của bạn cần được xử lý lại.</p>
+                               <p>Thông tin lịch hẹn:</p>
+                               <ul>
+                                 <li>Thời gian: <strong>$formatted_date</strong></li>
+                                 <li>Bác sĩ: <strong>{$user['full_name']}</strong> (không còn làm việc)</li>
+                               </ul>
+                               <p>Lịch hẹn của bạn đã được chuyển về trạng thái chờ xử lý. Lễ tân sẽ liên hệ với bạn để sắp xếp lại lịch hẹn với bác sĩ khác.</p>
+                               <p>Xin lỗi vì sự bất tiện này. Cảm ơn bạn đã tin tưởng DentaCare!</p>";
+                    
+                    sendEmail($apt['patient_email'], $subject, $message);
+                }
+                
+                $_SESSION['success'] = 'Đã xóa bác sĩ thành công! ' . count($affected_appointments) . ' lịch hẹn đã được chuyển về trạng thái chờ xử lý và đã gửi email thông báo cho bệnh nhân.';
+            } else {
+                $_SESSION['success'] = 'Đã xóa người dùng thành công!';
+            }
+        } else {
+            // Nếu là lễ tân, chỉ cần xóa (không có lịch hẹn nào được gán trực tiếp)
+            $_SESSION['success'] = 'Đã xóa người dùng thành công!';
+        }
+        
+        // Xóa user (foreign key constraint sẽ tự động set assigned_doctor_id = NULL cho các lịch còn lại)
         $pdo->prepare("DELETE FROM users WHERE id = ?")->execute([$user_id]);
-        $_SESSION['success'] = 'Đã xóa người dùng thành công!';
     } else {
         $_SESSION['error'] = 'Không thể xóa tài khoản admin!';
     }
@@ -37,10 +95,77 @@ if (isset($_POST['bulk_delete']) && isset($_POST['ids'])) {
     if ($admin_count > 0) {
         $_SESSION['error'] = 'Không thể xóa tài khoản admin!';
     } else {
-        // Delete users (cascade will handle related appointments)
+        // Lấy danh sách bác sĩ trong danh sách xóa
+        $doctor_stmt = $pdo->prepare("SELECT id, full_name FROM users WHERE id IN ($placeholders) AND role = 'doctor'");
+        $doctor_stmt->execute($ids);
+        $doctors_to_delete = $doctor_stmt->fetchAll();
+        
+        $total_affected_appointments = 0;
+        
+        // Kiểm tra xem cột deleted_at có tồn tại không (chỉ cần check 1 lần)
+        try {
+            $test_col = $pdo->query("SELECT deleted_at FROM appointments LIMIT 1");
+            $deleted_filter = "AND deleted_at IS NULL";
+        } catch (PDOException $e) {
+            $deleted_filter = "AND status != 'deleted'";
+        }
+        
+        // Xử lý lịch hẹn cho từng bác sĩ
+        foreach ($doctors_to_delete as $doctor) {
+            $doctor_id = $doctor['id'];
+            
+            // Kiểm tra lịch hẹn đang chờ duyệt hoặc đã xác nhận chưa đến ngày khám
+            $stmt = $pdo->prepare("SELECT id, patient_name, patient_email, appointment_date, status 
+                FROM appointments 
+                WHERE assigned_doctor_id = ? 
+                AND status IN ('waiting_for_approval', 'confirmed') 
+                AND appointment_date > NOW()
+                $deleted_filter");
+            $stmt->execute([$doctor_id]);
+            $affected_appointments = $stmt->fetchAll();
+            
+            if (!empty($affected_appointments)) {
+                // Chuyển các lịch hẹn về trạng thái pending
+                $appointment_ids = array_column($affected_appointments, 'id');
+                $apt_placeholders = implode(',', array_fill(0, count($appointment_ids), '?'));
+                
+                $update_stmt = $pdo->prepare("UPDATE appointments 
+                    SET status = 'pending', 
+                        assigned_doctor_id = NULL, 
+                        assigned_receptionist_id = NULL 
+                    WHERE id IN ($apt_placeholders)");
+                $update_stmt->execute($appointment_ids);
+                
+                // Gửi email thông báo cho từng bệnh nhân
+                foreach ($affected_appointments as $apt) {
+                    $formatted_date = date('d/m/Y H:i', strtotime($apt['appointment_date']));
+                    $subject = "Thông báo về lịch hẹn của bạn - DentaCare";
+                    $message = "<h3>Xin chào {$apt['patient_name']}!</h3>
+                               <p>Chúng tôi xin thông báo rằng lịch hẹn của bạn cần được xử lý lại.</p>
+                               <p>Thông tin lịch hẹn:</p>
+                               <ul>
+                                 <li>Thời gian: <strong>$formatted_date</strong></li>
+                                 <li>Bác sĩ: <strong>{$doctor['full_name']}</strong> (không còn làm việc)</li>
+                               </ul>
+                               <p>Lịch hẹn của bạn đã được chuyển về trạng thái chờ xử lý. Lễ tân sẽ liên hệ với bạn để sắp xếp lại lịch hẹn với bác sĩ khác.</p>
+                               <p>Xin lỗi vì sự bất tiện này. Cảm ơn bạn đã tin tưởng DentaCare!</p>";
+                    
+                    sendEmail($apt['patient_email'], $subject, $message);
+                }
+                
+                $total_affected_appointments += count($affected_appointments);
+            }
+        }
+        
+        // Xóa users
         $stmt = $pdo->prepare("DELETE FROM users WHERE id IN ($placeholders)");
         $stmt->execute($ids);
-        $_SESSION['success'] = 'Đã xóa ' . count($ids) . ' người dùng thành công!';
+        
+        if ($total_affected_appointments > 0) {
+            $_SESSION['success'] = 'Đã xóa ' . count($ids) . ' người dùng thành công! ' . $total_affected_appointments . ' lịch hẹn đã được chuyển về trạng thái chờ xử lý và đã gửi email thông báo cho bệnh nhân.';
+        } else {
+            $_SESSION['success'] = 'Đã xóa ' . count($ids) . ' người dùng thành công!';
+        }
     }
     header('Location: manage_users.php');
     exit;

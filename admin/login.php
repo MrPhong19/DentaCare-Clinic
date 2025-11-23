@@ -48,7 +48,7 @@ unset($_SESSION['login_error']);
               <div class="mb-3">
                 <label class="form-label fw-semibold">Tên đăng nhập</label>
                 <input type="text" name="username" class="form-control form-control-lg" 
-                       placeholder="admin / letan1 / bsminh" required autofocus>
+                       placeholder="Tên đăng nhập" required autofocus>
               </div>
 
               <div class="mb-3">
