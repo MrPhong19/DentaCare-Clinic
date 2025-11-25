@@ -445,6 +445,11 @@ $doctors = $doctors_stmt->fetchAll();
                             <td><?= htmlspecialchars($user['full_name']) ?></td>
                             <td><?= htmlspecialchars($user['email'] ?? 'N/A') ?></td>
                             <td>
+                              <a href="doctor_statistics_detail.php?doctor_id=<?= $user['id'] ?>" 
+                                 class="btn btn-primary btn-sm" 
+                                 title="Xem thống kê">
+                                <svg class="icon"><use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-chart"></use></svg>
+                              </a>
                               <a href="manage_users.php?delete=1&id=<?= $user['id'] ?>" 
                                  class="btn btn-danger btn-sm" 
                                  onclick="return confirm('Bạn có chắc chắn muốn xóa <?= htmlspecialchars(addslashes($user['full_name'])) ?>? Hành động này sẽ xóa tất cả thông tin liên quan và không thể hoàn tác!');">
